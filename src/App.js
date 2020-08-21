@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { useRecoilValue } from "recoil";
 import Layout from "./components/layout";
@@ -29,8 +23,7 @@ const App = () => {
   const user = useRecoilValue(loggedInUserData);
   return (
     <Layout>
-      <Login type="compact" />
-
+      {user.sub === null && <Login type="compact" />}
       <Router>
         <div>
           <nav>
