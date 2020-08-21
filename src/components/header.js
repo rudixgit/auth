@@ -29,7 +29,7 @@ const Header = ({ siteTitle }) => (
         <p
           onClick={() =>
             Auth.signOut()
-              .then(logout(() => navigate("/app/login")))
+              .then(logout(() => navigate("/")))
               .catch((err) => console.log("eror:", err))
           }
           style={styles.link}

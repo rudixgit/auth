@@ -28,7 +28,7 @@ class Login extends React.Component {
         username: user.username,
       };
       setUser(userInfo);
-      navigate("/app/profile");
+      navigate("/");
     } catch (err) {
       this.setState({ error: err });
       console.log("error...: ", err);
@@ -36,7 +36,7 @@ class Login extends React.Component {
   };
 
   render() {
-    if (isLoggedIn()) navigate("/app/profile");
+    if (isLoggedIn()) navigate("/");
     return (
       <div>
         <h1>Sign In</h1>
