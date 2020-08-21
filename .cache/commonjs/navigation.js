@@ -74,6 +74,15 @@ const onRouteUpdate = (location, prevLocation) => {
 };
 
 const navigate = (to, options = {}) => {
+  // Support forward/backward navigation with numbers
+  // navigate(-2) (jumps back 2 history steps)
+  // navigate(2)  (jumps forward 2 history steps)
+  if (typeof to === `number`) {
+    _history.globalHistory.navigate(to);
+
+    return;
+  }
+
   let {
     pathname
   } = (0, _gatsbyLink.parsePath)(to);
@@ -203,7 +212,7 @@ function init() {
 class RouteAnnouncer extends _react.default.Component {
   constructor(props) {
     super(props);
-    this.announcementRef = _react.default.createRef();
+    this.announcementRef = /*#__PURE__*/_react.default.createRef();
   }
 
   componentDidUpdate(prevProps, nextProps) {
@@ -221,10 +230,13 @@ class RouteAnnouncer extends _react.default.Component {
       }
 
       const newAnnouncement = `Navigated to ${pageName}`;
-      const oldAnnouncement = this.announcementRef.current.innerText;
 
-      if (oldAnnouncement !== newAnnouncement) {
-        this.announcementRef.current.innerText = newAnnouncement;
+      if (this.announcementRef.current) {
+        const oldAnnouncement = this.announcementRef.current.innerText;
+
+        if (oldAnnouncement !== newAnnouncement) {
+          this.announcementRef.current.innerText = newAnnouncement;
+        }
       }
     });
   }
