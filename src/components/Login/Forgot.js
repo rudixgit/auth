@@ -1,5 +1,5 @@
 import React from "react";
-import { navigate } from "@reach/router";
+
 import { Auth } from "aws-amplify";
 import Error from "../Error";
 class Login extends React.Component {
@@ -33,7 +33,7 @@ class Login extends React.Component {
           this.state.validation,
           this.state.password
         );
-        navigate("/app/login");
+        //navigate("/app/login");
       } else {
         this.setState({ error: { message: "Passwords don't Match" } });
       }
@@ -71,7 +71,7 @@ class Login extends React.Component {
               onClick={this.login}
               onKeyDown={this.login}
             >
-              <span style={styles.buttonText}>Sign In</span>
+              <span style={styles.buttonText}>Next</span>
             </div>
           </div>
         )}
@@ -98,38 +98,40 @@ class Login extends React.Component {
           </div>
         )}
 
-        {// password reset
-        this.state.stage === 2 && (
-          <div>
-            <input
-              type="password"
-              onChange={this.handleUpdate}
-              placeholder="new password"
-              name="password"
-              value={this.state.password}
-              style={styles.input}
-            />
-            <br />
-            <input
-              type="password"
-              onChange={this.handleUpdate}
-              placeholder="confirm password"
-              name="confirmPassword"
-              value={this.state.confirmPassword}
-              style={styles.input}
-            />
+        {
+          // password reset
+          this.state.stage === 2 && (
+            <div>
+              <input
+                type="password"
+                onChange={this.handleUpdate}
+                placeholder="new password"
+                name="password"
+                value={this.state.password}
+                style={styles.input}
+              />
+              <br />
+              <input
+                type="password"
+                onChange={this.handleUpdate}
+                placeholder="confirm password"
+                name="confirmPassword"
+                value={this.state.confirmPassword}
+                style={styles.input}
+              />
 
-            <div
-              role="button"
-              tabIndex={0}
-              style={styles.button}
-              onClick={this.changePassword}
-              onKeyDown={this.changePassword}
-            >
-              <span style={styles.buttonText}>Submit</span>
+              <div
+                role="button"
+                tabIndex={0}
+                style={styles.button}
+                onClick={this.changePassword}
+                onKeyDown={this.changePassword}
+              >
+                <span style={styles.buttonText}>Submit</span>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
       </div>
     );
   }

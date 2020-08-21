@@ -1,6 +1,5 @@
 import React from "react";
-import { navigate } from "@reach/router";
-import { Link } from "gatsby";
+
 import Error from "../Error";
 import { Auth } from "aws-amplify";
 
@@ -42,7 +41,7 @@ class SignUp extends React.Component {
     try {
       await Auth.confirmSignUp(username, authCode);
       alert("Successfully signed up!");
-      navigate("/app/login");
+      //navigate("/app/login");
     } catch (err) {
       this.setState({ error: err });
       console.log("error confirming signing up...", err);
@@ -99,7 +98,6 @@ class SignUp extends React.Component {
             </div>
           </div>
         )}
-        <Link to="/app/login">Sign In</Link>
       </div>
     );
   }

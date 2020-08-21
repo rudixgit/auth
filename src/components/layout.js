@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 
-import Header from "./header";
+//import Header from "./header";
 import "./layout.css";
-
+//<Header siteTitle={"Acme Inc"} />
 const Layout = ({ children, data }) => (
   <>
     <Helmet
@@ -16,7 +16,7 @@ const Layout = ({ children, data }) => (
     >
       <html lang="en" />
     </Helmet>
-    <Header siteTitle={"Acme Inc"} />
+
     <div
       style={{
         margin: "0 auto",

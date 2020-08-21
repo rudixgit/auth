@@ -1,25 +1,27 @@
-import React from "react";
-import { Link } from "gatsby";
-import { navigate } from "@reach/router";
-import { setUser, isLoggedIn } from "../../utils/auth";
+import React, { useState } from "react";
+
 import Error from "../Error";
 import { Auth } from "aws-amplify";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loggedInUserData } from "../../utils/state";
+//
 
-class Login extends React.Component {
-  state = {
-    username: "",
-    password: "",
-    error: "",
+const Login = (props) => {
+  const [user, setUser] = useRecoilState(loggedInUserData);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const handleUpdate = (event) => {
+    console.log(event.target.name);
+    if (event.target.name === "username") {
+    }
+    if (event.target.name === "password") {
+      setPassword(event.target.value);
+    }
+    //.setState({ [event.target.name]: event.target.value });
   };
 
-  handleUpdate = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  login = async () => {
-    const { username, password } = this.state;
+  const login = async () => {
     try {
       await Auth.signIn(username, password);
       const user = await Auth.currentAuthenticatedUser();
@@ -28,46 +30,63 @@ class Login extends React.Component {
         username: user.username,
       };
       setUser(userInfo);
-      navigate("/");
+      console.log(userInfo);
     } catch (err) {
-      this.setState({ error: err });
+      //this.setState({ error: err });
       console.log("error...: ", err);
+      setError(err);
     }
   };
-
-  render() {
-    if (isLoggedIn()) navigate("/");
-    return (
-      <div>
-        <h1>Sign In</h1>
-        {this.state.error && <Error errorMessage={this.state.error} />}
-        <div style={styles.formContainer}>
+  return (
+    <>
+      {error && <Error errorMessage={error} />}
+      {props.type === "compact" && (
+        <>
           <input
-            onChange={this.handleUpdate}
+            onChange={(event) => setUsername(event.target.value)}
             placeholder="Username"
             name="username"
-            value={this.state.username}
+            value={username}
+            style={styles.inputCompact}
+          />
+          <input
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            name="password"
+            value={password}
+            type="password"
+            style={styles.inputCompact}
+          />
+          <div style={styles.buttonCompact} onClick={login}>
+            <span style={styles.buttonCompact}>Sign In</span>
+          </div>
+        </>
+      )}
+      {props.type === "full" && (
+        <>
+          <input
+            onChange={handleUpdate}
+            placeholder="Username"
+            name="username"
+            value={username}
             style={styles.input}
           />
           <input
-            onChange={this.handleUpdate}
+            onChange={handleUpdate}
             placeholder="Password"
             name="password"
-            value={this.state.password}
+            value={password}
             type="password"
             style={styles.input}
           />
-          <div style={styles.button} onClick={this.login}>
+          <div style={styles.button} onClick={login}>
             <span style={styles.buttonText}>Sign In</span>
           </div>
-        </div>
-        <Link to="/app/signup">Sign Up</Link>{" "}
-        <Link to="/app/forgot">Forgot Password</Link>
-        <br />
-      </div>
-    );
-  }
-}
+        </>
+      )}
+    </>
+  );
+};
 
 const styles = {
   input: {
