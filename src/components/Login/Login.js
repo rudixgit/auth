@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Error from "../Error";
 import { Auth } from "aws-amplify";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { loggedInUserData } from "../../utils/state";
 //
 
@@ -30,7 +30,8 @@ const Login = (props) => {
         username: user.username,
       };
       setUser(userInfo);
-      console.log(userInfo);
+
+      localStorage.setItem("user", JSON.stringify(userInfo));
     } catch (err) {
       //this.setState({ error: err });
       console.log("error...: ", err);
@@ -65,14 +66,14 @@ const Login = (props) => {
       {props.type === "full" && (
         <>
           <input
-            onChange={handleUpdate}
+            onChange={(event) => setUsername(event.target.value)}
             placeholder="Username"
             name="username"
             value={username}
             style={styles.input}
           />
           <input
-            onChange={handleUpdate}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="Password"
             name="password"
             value={password}
@@ -93,6 +94,7 @@ const styles = {
     height: 40,
     margin: "10px 0px",
     padding: 7,
+    width: "100%",
   },
   formContainer: {
     display: "flex",

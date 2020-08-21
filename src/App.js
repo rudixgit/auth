@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 import { useRecoilValue } from "recoil";
 import Layout from "./components/layout";
@@ -20,14 +26,21 @@ Amplify.configure({
 });
 
 const App = () => {
-  const user = useRecoilValue(loggedInUserData);
+  const user1 = useRecoilValue(loggedInUserData);
+  const userStorage = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : { sub: null };
+  const user = user1.sub ? user1 : userStorage;
   return (
     <Layout>
-      {user.sub === null && <Login type="compact" />}
+      {user.sub === null ? <Login type="compact" /> : null}
       <Router>
         <div>
           <nav>
             <ul>
+              <li>
+                <Link to="/app/login">Login</Link>
+              </li>
               <li>
                 <Link to="/app/signup">Sign Up</Link>
               </li>
@@ -39,13 +52,17 @@ const App = () => {
           {JSON.stringify(user)}
           <Switch>
             <Route path="/app/login">
-              <>
-                <h1>Login</h1>
-                <Login />
-              </>
+              {user.sub === null ? (
+                <>
+                  <h1>Login</h1>
+                  <Login type="full" />
+                </>
+              ) : (
+                <Redirect to="/" />
+              )}
             </Route>
             <Route path="/app/forgot">
-              <Forgot type="full" />
+              <Forgot />
             </Route>
             <Route path="/app/signup">
               <SignUp />
