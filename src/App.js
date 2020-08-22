@@ -10,7 +10,7 @@ import {
 import { useRecoilValue } from "recoil";
 import Layout from "./components/layout";
 
-import Amplify from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import Login from "./components/Login/Login";
 import SignUp from "./components/Login/SignUp";
 import Forgot from "./components/Login/Forgot";
@@ -31,22 +31,43 @@ const App = () => {
     ? JSON.parse(localStorage.getItem("user"))
     : { sub: null };
   const user = user1.sub ? user1 : userStorage;
+
+  const logout = () => {
+    alert(2);
+    localStorage.setItem("user", JSON.stringify({ sub: null }));
+    window.location.reload();
+  };
   return (
     <Layout>
-      {user.sub === null ? <Login type="compact" /> : null}
       <Router>
         <div>
           <nav>
             <ul>
-              <li>
-                <Link to="/app/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/app/signup">Sign Up</Link>
-              </li>
-              <li>
-                <Link to="/app/forgot">Forgot Password</Link>
-              </li>
+              {user.sub === null ? (
+                <>
+                  <li>
+                    <Link to="/app/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/app/signup">Sign Up</Link>
+                  </li>
+                  <li>
+                    <Link to="/app/forgot">Forgot Password</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li
+                    onClick={() =>
+                      Auth.signOut()
+                        .then(logout())
+                        .catch((err) => console.log("eror:", err))
+                    }
+                  >
+                    Logout
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
           {JSON.stringify(user)}

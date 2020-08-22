@@ -11,15 +11,6 @@ const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const handleUpdate = (event) => {
-    console.log(event.target.name);
-    if (event.target.name === "username") {
-    }
-    if (event.target.name === "password") {
-      setPassword(event.target.value);
-    }
-    //.setState({ [event.target.name]: event.target.value });
-  };
 
   const login = async () => {
     try {
