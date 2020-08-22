@@ -31,6 +31,7 @@ const Login = (props) => {
   };
   return (
     <>
+      {user.x && <Error errorMessage={error} />}
       {error && <Error errorMessage={error} />}
       {props.type === "compact" && (
         <>
