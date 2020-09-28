@@ -15,7 +15,7 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/Login/SignUp";
 import Forgot from "./components/Login/Forgot";
 import { loggedInUserData } from "./utils/state";
-import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+
 Amplify.configure({
   aws_project_region: "eu-west-1",
   aws_cognito_identity_pool_id:

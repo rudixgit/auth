@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import "../css/main.css";
 
-//import Header from "./header";
-import "./layout.css";
-//<Header siteTitle={"Acme Inc"} />
 const Layout = ({ children, data }) => (
   <>
     <Helmet
