@@ -26,6 +26,10 @@ Amplify.configure({
   oauth: {},
 });
 
+const Home = ({ user }) => {
+  return <div> {JSON.stringify(user)}</div>;
+};
+
 const App = () => {
   const [selected, setSelected] = useState("login");
   const user1 = useRecoilValue(loggedInUserData);
@@ -44,65 +48,62 @@ const App = () => {
     //this.setState({ current: e.key });
   };
   return (
-    <Layout>
-      <Router>
-        <div>
-          <Menu
-            onClick={handleClick}
-            selectedKeys={[selected]}
-            mode="horizontal"
-          >
+    <Router>
+      <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
+        {user.sub === null ? (
+          <>
+            <Menu.Item key="login">
+              <Link to="/app/login">Вход</Link>
+            </Menu.Item>
+            <Menu.Item key="signup">
+              <Link to="/app/signup">Регистрация</Link>
+            </Menu.Item>
+            <Menu.Item key="forgot">
+              <Link to="/app/forgot">Забравена парола</Link>
+            </Menu.Item>
+          </>
+        ) : (
+          <>
+            <Menu.Item key="logout">
+              <a
+                href="/"
+                onClick={() =>
+                  Auth.signOut()
+                    .then(logout())
+                    .catch((err) => console.log("eror:", err))
+                }
+              >
+                Изход
+              </a>
+            </Menu.Item>
+          </>
+        )}
+      </Menu>
+
+      <Layout>
+        <Switch>
+          <Route path="/app/login">
             {user.sub === null ? (
               <>
-                <Menu.Item key="login">
-                  <Link to="/app/login">Вход</Link>
-                </Menu.Item>
-                <Menu.Item key="signup">
-                  <Link to="/app/signup">Регистрация</Link>
-                </Menu.Item>
-                <Menu.Item key="forgot">
-                  <Link to="/app/forgot">Забравена парола</Link>
-                </Menu.Item>
+                <h1>Вход</h1>
+                <Login type="full" />
               </>
             ) : (
-              <>
-                <Menu.Item key="logout">
-                  <a
-                    href="/"
-                    onClick={() =>
-                      Auth.signOut()
-                        .then(logout())
-                        .catch((err) => console.log("eror:", err))
-                    }
-                  >
-                    Logout
-                  </a>
-                </Menu.Item>
-              </>
+              <Redirect to="/" />
             )}
-          </Menu>
-          {JSON.stringify(user)}
-          <Switch>
-            <Route path="/app/login">
-              {user.sub === null ? (
-                <>
-                  <h1>Вход</h1>
-                  <Login type="full" />
-                </>
-              ) : (
-                <Redirect to="/" />
-              )}
-            </Route>
-            <Route path="/app/forgot">
-              <Forgot />
-            </Route>
-            <Route path="/app/signup">
-              <SignUp />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </Layout>
+          </Route>
+          <Route path="/app/forgot">
+            <Forgot />
+          </Route>
+          <Route path="/app/signup">
+            <SignUp />
+          </Route>
+        </Switch>
+        <Route path="/">
+          <Home user={user}></Home>
+        </Route>
+      </Layout>
+    </Router>
   );
 };
 
