@@ -4,6 +4,8 @@ import Error from "../Error";
 import { Auth } from "aws-amplify";
 import { useRecoilState } from "recoil";
 import { loggedInUserData } from "../../utils/state";
+import { Input } from "antd";
+
 //
 
 const Login = (props) => {
@@ -35,45 +37,45 @@ const Login = (props) => {
       {error && <Error errorMessage={error} />}
       {props.type === "compact" && (
         <>
-          <input
+          <Input
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="Username"
+            placeholder="Потребител"
             name="username"
             value={username}
-            style={styles.inputCompact}
+            style={styles.InputCompact}
           />
-          <input
+          <Input
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
+            placeholder="Парола"
             name="password"
             value={password}
             type="password"
-            style={styles.inputCompact}
+            style={styles.InputCompact}
           />
           <div style={styles.buttonCompact} onClick={login}>
-            <span style={styles.buttonCompact}>Sign In</span>
+            <span style={styles.buttonCompact}>Вход</span>
           </div>
         </>
       )}
       {props.type === "full" && (
         <>
-          <input
+          <Input
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="Username"
+            placeholder="Потребител"
             name="username"
             value={username}
-            style={styles.input}
+            style={styles.Input}
           />
-          <input
+          <Input
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
+            placeholder="Парола"
             name="password"
             value={password}
             type="password"
-            style={styles.input}
+            style={styles.Input}
           />
           <div style={styles.button} onClick={login}>
-            <span style={styles.buttonText}>Sign In</span>
+            <span style={styles.buttonText}>Вход</span>
           </div>
         </>
       )}
@@ -82,7 +84,7 @@ const Login = (props) => {
 };
 
 const styles = {
-  input: {
+  Input: {
     height: 40,
     margin: "10px 0px",
     padding: 7,

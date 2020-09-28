@@ -2,7 +2,7 @@ import React from "react";
 
 import Error from "../Error";
 import { Auth } from "aws-amplify";
-
+import { Input } from "antd";
 const initialState = {
   username: ``,
   password: ``,
@@ -55,27 +55,27 @@ class SignUp extends React.Component {
         {this.state.stage === 0 && (
           <div style={styles.formContainer}>
             {this.state.error && <Error errorMessage={this.state.error} />}
-            <input
+            <Input
               onChange={this.handleUpdate}
               placeholder="Username"
               name="username"
               value={this.state.username}
-              style={styles.input}
+              style={styles.Input}
             />
-            <input
+            <Input
               onChange={this.handleUpdate}
               placeholder="Password"
               name="password"
               value={this.state.password}
               type="password"
-              style={styles.input}
+              style={styles.Input}
             />
-            <input
+            <Input
               onChange={this.handleUpdate}
               placeholder="Email"
               name="email"
               value={this.state.email}
-              style={styles.input}
+              style={styles.Input}
             />
 
             <div style={styles.button} onClick={this.signUp}>
@@ -86,12 +86,12 @@ class SignUp extends React.Component {
         {this.state.stage === 1 && (
           <div style={styles.formContainer}>
             {this.state.error && <Error errorMessage={this.state.error} />}
-            <input
+            <Input
               onChange={this.handleUpdate}
               placeholder="Authorization Code"
               name="authCode"
               value={this.state.authCode}
-              style={styles.input}
+              style={styles.Input}
             />
             <div style={styles.button} onClick={this.confirmSignUp}>
               <span style={styles.buttonText}>Confirm Sign Up</span>
@@ -104,7 +104,7 @@ class SignUp extends React.Component {
 }
 
 const styles = {
-  input: {
+  Input: {
     height: 40,
     margin: "10px 0px",
     padding: 7,

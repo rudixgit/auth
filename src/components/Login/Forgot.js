@@ -2,6 +2,7 @@ import React from "react";
 
 import { Auth } from "aws-amplify";
 import Error from "../Error";
+import { Input } from "antd";
 class Login extends React.Component {
   state = {
     username: "",
@@ -56,12 +57,12 @@ class Login extends React.Component {
 
         {this.state.stage === 0 && (
           <div style={styles.formContainer}>
-            <input
+            <Input
               onChange={this.handleUpdate}
-              placeholder="Username"
+              placeholder="Потребител"
               name="username"
               value={this.state.username}
-              style={styles.input}
+              style={styles.Input}
             />
 
             <div
@@ -71,20 +72,20 @@ class Login extends React.Component {
               onClick={this.login}
               onKeyDown={this.login}
             >
-              <span style={styles.buttonText}>Next</span>
+              <span style={styles.buttonText}>Нататък</span>
             </div>
           </div>
         )}
 
         {this.state.stage === 1 && (
           <div>
-            <div>check your email for validation code</div>
-            <input
+            <div>Провери имейла си за потвърждаващ код</div>
+            <Input
               onChange={this.handleUpdate}
-              placeholder="validation code"
+              placeholder="потвърждаващ код"
               name="validation"
               value={this.state.validation}
-              style={styles.input}
+              style={styles.Input}
             />
             <div
               role="button"
@@ -93,7 +94,7 @@ class Login extends React.Component {
               onClick={this.submitCode}
               onKeyDown={this.submitCode}
             >
-              <span style={styles.buttonText}>Submit</span>
+              <span style={styles.buttonText}>ОК</span>
             </div>
           </div>
         )}
@@ -102,22 +103,22 @@ class Login extends React.Component {
           // password reset
           this.state.stage === 2 && (
             <div>
-              <input
+              <Input
                 type="password"
                 onChange={this.handleUpdate}
                 placeholder="new password"
                 name="password"
                 value={this.state.password}
-                style={styles.input}
+                style={styles.Input}
               />
               <br />
-              <input
+              <Input
                 type="password"
                 onChange={this.handleUpdate}
                 placeholder="confirm password"
                 name="confirmPassword"
                 value={this.state.confirmPassword}
-                style={styles.input}
+                style={styles.Input}
               />
 
               <div
@@ -138,7 +139,7 @@ class Login extends React.Component {
 }
 
 const styles = {
-  input: {
+  Input: {
     height: 40,
     margin: "10px 0px",
     padding: 7,
