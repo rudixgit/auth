@@ -31,7 +31,7 @@ const Home = ({ user }) => {
 };
 
 const App = () => {
-  const [selected, setSelected] = useState("login");
+  const [selected, setSelected] = useState("home");
   const user1 = useRecoilValue(loggedInUserData);
   const userStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -53,7 +53,7 @@ const App = () => {
         {user.sub === null ? (
           <>
             <Menu.Item key="home">
-              <Link to="/app/login">Начало</Link>
+              <Link to="/">Начало</Link>
             </Menu.Item>
             <Menu.Item key="login">
               <Link to="/app/login">Вход</Link>
