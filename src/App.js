@@ -52,6 +52,9 @@ const App = () => {
       <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
         {user.sub === null ? (
           <>
+            <Menu.Item key="home">
+              <Link to="/app/login">Начало</Link>
+            </Menu.Item>
             <Menu.Item key="login">
               <Link to="/app/login">Вход</Link>
             </Menu.Item>
