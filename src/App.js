@@ -9,7 +9,6 @@ import {
 import { Menu } from "antd";
 import { useRecoilValue } from "recoil";
 import Layout from "./components/layout";
-
 import { Amplify, Auth } from "aws-amplify";
 import Login from "./components/Login/Login";
 import SignUp from "./components/Login/SignUp";
@@ -40,7 +39,7 @@ const App = () => {
 
   const logout = () => {
     localStorage.setItem("user", JSON.stringify({ sub: null }));
-    window.location.reload();
+    // window.location.reload();
   };
   const handleClick = (e) => {
     console.log("click ", e.key);
