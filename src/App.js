@@ -1,59 +1,54 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   Redirect,
-} from "react-router-dom";
-import { Menu } from "antd";
-import { useRecoilValue } from "recoil";
-import Layout from "./components/layout";
-import { Amplify, Auth } from "aws-amplify";
-import Login from "./components/Login/Login";
-import SignUp from "./components/Login/SignUp";
-import Forgot from "./components/Login/Forgot";
-import { loggedInUserData } from "./utils/state";
+} from 'react-router-dom';
+import { Menu } from 'antd';
+import { useRecoilValue } from 'recoil';
+import { Amplify, Auth } from 'aws-amplify';
+import Layout from './components/layout';
+import Login from './components/Login/Login';
+import SignUp from './components/Login/SignUp';
+import Forgot from './components/Login/Forgot';
+import Home from './components/Home';
+import { loggedInUserData } from './utils/state';
 
 Amplify.configure({
-  aws_project_region: "eu-west-1",
+  aws_project_region: 'eu-west-1',
   aws_cognito_identity_pool_id:
-    "eu-west-1:06863165-5b56-4598-8e87-cc9ae2895f39",
-  aws_cognito_region: "eu-west-1",
-  aws_user_pools_id: "eu-west-1_sk5LfmU4g",
-  aws_user_pools_web_client_id: "6d5of62ku9g4pcl2jpp0rcng67",
+      'eu-west-1:06863165-5b56-4598-8e87-cc9ae2895f39',
+  aws_cognito_region: 'eu-west-1',
+  aws_user_pools_id: 'eu-west-1_sk5LfmU4g',
+  aws_user_pools_web_client_id: '6d5of62ku9g4pcl2jpp0rcng67',
   oauth: {},
 });
 
-const Home = ({ user }) => {
-  return <div> {JSON.stringify(user)}</div>;
-};
-
 const App = () => {
-  const [selected, setSelected] = useState("home");
+  const [selected, setSelected] = useState('home');
   const user1 = useRecoilValue(loggedInUserData);
-  const userStorage = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
+  const userStorage = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
     : { sub: null };
   const user = user1.sub ? user1 : userStorage;
 
   const logout = () => {
-    localStorage.setItem("user", JSON.stringify({ sub: null }));
+    localStorage.setItem('user', JSON.stringify({ sub: null }));
     // window.location.reload();
   };
   const handleClick = (e) => {
-    console.log("click ", e.key);
     setSelected(e.key);
-    //this.setState({ current: e.key });
   };
   return (
     <Router>
       <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
+        <Menu.Item key="home">
+          <Link to="/">Начало</Link>
+        </Menu.Item>
         {user.sub === null ? (
           <>
-            <Menu.Item key="home">
-              <Link to="/">Начало</Link>
-            </Menu.Item>
             <Menu.Item key="login">
               <Link to="/app/login">Вход</Link>
             </Menu.Item>
@@ -67,14 +62,7 @@ const App = () => {
         ) : (
           <>
             <Menu.Item key="logout">
-              <a
-                href="/"
-                onClick={() =>
-                  Auth.signOut()
-                    .then(logout())
-                    .catch((err) => console.log("eror:", err))
-                }
-              >
+              <a href="/" onClick={() => Auth.signOut().then(logout())}>
                 Изход
               </a>
             </Menu.Item>
@@ -100,10 +88,10 @@ const App = () => {
           <Route path="/app/signup">
             <SignUp />
           </Route>
+          <Route path="/">
+            <Home user={user} />
+          </Route>
         </Switch>
-        <Route path="/">
-          <Home user={user}></Home>
-        </Route>
       </Layout>
     </Router>
   );

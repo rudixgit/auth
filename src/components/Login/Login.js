@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Error from "../Error";
-import { Auth } from "aws-amplify";
-import { useRecoilState } from "recoil";
-import { loggedInUserData } from "../../utils/state";
-import { Input } from "antd";
+import { Auth } from 'aws-amplify';
+import { useRecoilState } from 'recoil';
+import { Input } from 'antd';
+import { loggedInUserData } from '../../utils/state';
+import Error from '../Error';
 
 //
 
 const Login = (props) => {
   const [user, setUser] = useRecoilState(loggedInUserData);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
   const login = async () => {
@@ -24,10 +24,10 @@ const Login = (props) => {
       };
       setUser(userInfo);
 
-      localStorage.setItem("user", JSON.stringify(userInfo));
+      localStorage.setItem('user', JSON.stringify(userInfo));
     } catch (err) {
-      //this.setState({ error: err });
-      console.log("error...: ", err);
+      // this.setState({ error: err });
+      console.log('error...: ', err);
       setError(err);
     }
   };
@@ -35,7 +35,7 @@ const Login = (props) => {
     <>
       {user.x && <Error errorMessage={error} />}
       {error && <Error errorMessage={error} />}
-      {props.type === "compact" && (
+      {props.type === 'compact' && (
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
@@ -57,7 +57,7 @@ const Login = (props) => {
           </div>
         </>
       )}
-      {props.type === "full" && (
+      {props.type === 'full' && (
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
@@ -86,23 +86,23 @@ const Login = (props) => {
 const styles = {
   Input: {
     height: 40,
-    margin: "10px 0px",
+    margin: '10px 0px',
     padding: 7,
-    width: "100%",
+    width: '100%',
   },
   formContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
   button: {
-    backgroundColor: "rebeccapurple",
-    padding: "15px 7px",
-    cursor: "pointer",
-    textAlign: "center",
+    backgroundColor: 'rebeccapurple',
+    padding: '15px 7px',
+    cursor: 'pointer',
+    textAlign: 'center',
     marginBottom: 10,
   },
   buttonText: {
-    color: "white",
+    color: 'white',
   },
 };
 

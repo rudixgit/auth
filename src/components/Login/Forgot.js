@@ -52,7 +52,7 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1>Forgot Password</h1>
+        <h1>Забвавена парола</h1>
         {this.state.error && <Error errorMessage={this.state.error} />}
 
         {this.state.stage === 0 && (
@@ -121,15 +121,16 @@ class Login extends React.Component {
                 style={styles.Input}
               />
 
-              <div
+              <a
                 role="button"
                 tabIndex={0}
+                href="/"
                 style={styles.button}
                 onClick={this.changePassword}
                 onKeyDown={this.changePassword}
               >
-                <span style={styles.buttonText}>Submit</span>
-              </div>
+                <span style={styles.buttonText}>Смени</span>
+              </a>
             </div>
           )
         }
