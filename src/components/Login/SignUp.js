@@ -40,7 +40,7 @@ const SignUp = () => {
     const { username, authCode } = state;
     try {
       await Auth.confirmSignUp(username, authCode);
-      setState({ ...state, stage: 2 });
+      setState({ ...state, stage: 2, error: { name: 'Empty' } });
     } catch (err) {
       setState({ ...state, error: err });
       console.log('error confirming signing up...', err);
@@ -100,8 +100,8 @@ const SignUp = () => {
       {state.stage === 2 && (
         <>
           Регистрациятя успешна
-          <a href="/app/login">Вход</a>
-          <Login />
+          <h1>Вход</h1>
+          <Login type="full" />
         </>
       )}
     </div>

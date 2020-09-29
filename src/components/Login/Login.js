@@ -30,7 +30,7 @@ const styles = {
     color: 'white',
   },
 };
-const Login = (props) => {
+const Login = ({ type }) => {
   const [user, setUser] = useRecoilState(loggedInUserData);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +55,7 @@ const Login = (props) => {
     <>
       {user.x && <Error errorMessage={error} />}
       {error && <Error errorMessage={error} />}
-      {props.type === 'compact' && (
+      {type === 'compact' && (
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
@@ -77,7 +77,7 @@ const Login = (props) => {
           </div>
         </>
       )}
-      {props.type === 'full' && (
+      {type === 'full' && (
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
