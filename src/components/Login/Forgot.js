@@ -38,7 +38,7 @@ const Forgot = () => {
   });
   const login = async () => {
     try {
-      const x = await Auth.forgotPassword(state.username);
+      await Auth.forgotPassword(state.username);
 
       setState({ ...state, stage: 1 });
     } catch (err) {
