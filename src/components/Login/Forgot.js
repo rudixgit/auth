@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import { Auth } from "aws-amplify";
-import Error from "../Error";
-import { Input } from "antd";
+import { Auth } from 'aws-amplify';
+import Error from '../Error';
+import { Input } from 'antd';
 class Login extends React.Component {
   state = {
-    username: "",
-    error: "",
-    validation: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    error: '',
+    validation: '',
+    password: '',
+    confirmPassword: '',
     stage: 0,
   };
 
@@ -20,7 +20,7 @@ class Login extends React.Component {
       this.setState({ stage: 1 });
     } catch (err) {
       this.setState({ error: err });
-      console.log("error...: ", err);
+      console.log('error...: ', err);
     }
   };
   submitCode = () => {
@@ -40,7 +40,7 @@ class Login extends React.Component {
       }
     } catch (err) {
       this.setState({ error: err });
-      console.log("error...: ", err);
+      console.log('error...: ', err);
     }
   };
   handleUpdate = (event) => {
@@ -142,23 +142,23 @@ class Login extends React.Component {
 const styles = {
   Input: {
     height: 40,
-    margin: "10px 0px",
+    margin: '10px 0px',
     padding: 7,
-    width: "100%",
+    width: '100%',
   },
   formContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
   button: {
-    backgroundColor: "rebeccapurple",
-    padding: "15px 7px",
-    cursor: "pointer",
-    textAlign: "center",
+    backgroundColor: 'rebeccapurple',
+    padding: '15px 7px',
+    cursor: 'pointer',
+    textAlign: 'center',
     marginBottom: 10,
   },
   buttonText: {
-    color: "white",
+    color: 'white',
   },
 };
 

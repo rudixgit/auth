@@ -8,6 +8,28 @@ import Error from '../Error';
 
 //
 
+const styles = {
+  Input: {
+    height: 40,
+    margin: '10px 0px',
+    padding: 7,
+    width: '100%',
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  button: {
+    backgroundColor: 'rebeccapurple',
+    padding: '15px 7px',
+    cursor: 'pointer',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+  },
+};
 const Login = (props) => {
   const [user, setUser] = useRecoilState(loggedInUserData);
   const [username, setUsername] = useState('');
@@ -17,17 +39,15 @@ const Login = (props) => {
   const login = async () => {
     try {
       await Auth.signIn(username, password);
-      const user = await Auth.currentAuthenticatedUser();
+      const user1 = await Auth.currentAuthenticatedUser();
       const userInfo = {
-        ...user.attributes,
-        username: user.username,
+        ...user1.attributes,
+        username: user1.username,
       };
       setUser(userInfo);
 
       localStorage.setItem('user', JSON.stringify(userInfo));
     } catch (err) {
-      // this.setState({ error: err });
-      console.log('error...: ', err);
       setError(err);
     }
   };
@@ -81,29 +101,6 @@ const Login = (props) => {
       )}
     </>
   );
-};
-
-const styles = {
-  Input: {
-    height: 40,
-    margin: '10px 0px',
-    padding: 7,
-    width: '100%',
-  },
-  formContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  button: {
-    backgroundColor: 'rebeccapurple',
-    padding: '15px 7px',
-    cursor: 'pointer',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: 'white',
-  },
 };
 
 export default Login;
