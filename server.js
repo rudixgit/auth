@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 const { put, query } = require('./src/db.js');
 
 app.post('/register', async (req, res) => {
-
+  res.json(req.body);
 });
 
 app.post('/db/', async (req, res) => {
