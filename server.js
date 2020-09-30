@@ -1,3 +1,4 @@
+require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,6 +13,15 @@ app.use(cors());
 app.use(bodyParser.json());
 const { put, query } = require('./src/db.js');
 
+async function test() {
+  const test = await query({
+    collection: 'newsbg',
+    limit: 50,
+    descending: false,
+    fields: ['title', 'image', 'vreme'],
+  });
+}
+test()
 app.post('/register', async (req, res) => {
 
 });
