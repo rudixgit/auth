@@ -38,11 +38,12 @@ const App = () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));
     // window.location.reload();
   };
-  const handleClick = (e) => {
+  const handleClick = e => {
     setSelected(e.key);
   };
   return (
     <Router>
+      {JSON.stringify(process.env)}
       <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
         <Menu.Item key="home">
           <Link to="/">Начало</Link>
