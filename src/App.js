@@ -37,7 +37,7 @@ const App = () => {
     async function fetchData() {
       try {
         const test = await Auth.currentSession();
-        console.log(test.accessToken);
+        console.log(test.accessToken.jwtToken);
       } catch (err) {
         console.log(err);
       }

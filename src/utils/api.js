@@ -9,12 +9,13 @@ const env1 = {
   },
 };
 export const env = env1[process.env.NODE_ENV];
-export const query = async (json) => {
+export const query = async (json, token) => {
   const result = await axios.post(
     env.api,
     JSON.stringify(json),
     {
       headers: {
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     },
