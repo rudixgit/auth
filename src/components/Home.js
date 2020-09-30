@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { query } from '../utils/api';
 
-const Home = ({ user }) => (
-  <div>
-    <h1>Начало</h1>
+const Home = ({ user }) => {
+  const [data, setData] = useState({ hits: [] });
+  useEffect(() => {
+    async function fetchData() {
+      const response = await query({
+        collection: 'newsbg',
+        limit: 1,
+        descending: false,
+        fields: ['title', 'image', 'vreme'],
+      });
 
-    {JSON.stringify(user)}
-  </div>
-);
+      setData(response.data);
+    }
+    fetchData();
+  }, []);
+  return (
+    <div>
+      <h1>Начало</h1>
+
+      {JSON.stringify(data)}
+    </div>
+  );
+};
 
 export default Home;

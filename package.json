@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.6.6",
     "aws-amplify": "3.0.24",
+    "axios": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
