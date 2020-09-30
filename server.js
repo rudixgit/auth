@@ -13,15 +13,6 @@ app.use(cors());
 app.use(bodyParser.json());
 const { put, query } = require('./src/db.js');
 
-async function test() {
-  const test = await query({
-    collection: 'newsbg',
-    limit: 50,
-    descending: false,
-    fields: ['title', 'image', 'vreme'],
-  });
-}
-test()
 app.post('/register', async (req, res) => {
 
 });
@@ -37,7 +28,6 @@ app.post('/dbput/', async (req, res) => {
 
 if (!process.env.LAMBDA_RUNTIME_DIR) {
   app.listen(process.env.PORT || 3001);
-  console.log('working on localhost');
 }
 
 module.exports.handler = serverless(app);
