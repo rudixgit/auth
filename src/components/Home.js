@@ -6,13 +6,8 @@ const Home = ({ user }) => {
   useEffect(() => {
     async function fetchData() {
       const response = await query(
-        {
-          collection: 'newsbg',
-          limit: 1,
-          descending: false,
-          fields: ['title', 'image', 'vreme'],
-        },
-        'eyJraWQiOiJiZGRadUdBZE1QREl0RlwvRk9JTmlOdG9SQ3Z1R1Y3WitBYURkSjh2RDJ5cz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI3ODk0YTc3Ny04NDBmLTQxNDAtODRkOS1lMDIxNGYwNDU3NzAiLCJldmVudF9pZCI6IjhmNzI1MTM1LWEyNDEtNGQ3Yy1iMmQ2LTJhYmE1MzBjNDVlYiIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDE1MzEzNzEsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0xX3NrNUxmbVU0ZyIsImV4cCI6MTYwMTUzNDk3MSwiaWF0IjoxNjAxNTMxMzcxLCJqdGkiOiJhMzU2YzgxOC1iOWQ4LTQ3ZDItOTFmYy0xMTMwOWYwYmE3M2YiLCJjbGllbnRfaWQiOiI2ZDVvZjYya3U5ZzRwY2wyanBwMHJjbmc2NyIsInVzZXJuYW1lIjoiYXJwZWNvcCJ9.IR_ULdj3vPK6t_Qpe2TAK5afteN_-Zub4iwfXTRe_OulaueW5cRYZoM6L98YMOQycHcwGyfa8UDxU1v9xB7F1RJ4TaKW1K_Pj50JyXjsG7sYtTxYemkUTpi86zIqPB79N8O4F4sdL3Y75MtKhdnH_os0O4U_Lq_0pZiwjDMtsSqSmHeNUfmSK790c2EZEGoWgyDal3pxvCD_qeP5nheseDbA3a__YYrXQHGNgL3AsTK6V_j1ccmbFDUIlFsdiXG8F5gGRBChgAGoGL6M2W9augmldQDMR9MRJBEeagnjB_TCzUSi9UbNG9WPvfLGJdorlTywmbNryLvh2l4Nz40stw',
+        '/',
+        'eyJraWQiOiJVMHBtT1FjTGNpWVB3N2Fwd0ZMNVQ4c1llOXh6VHhkSEtmOE1VT3FXcTBnPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI2MmVhNWQxNi1lMzA3LTQzZWItYmVhMC1hYTg0ZGY1MzJjZmUiLCJldmVudF9pZCI6IjY1NzA1NzRkLTJmNzAtNDFiNy1iYmY0LTA2MjY0YWJiMjQ2ZCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDE1MzIzNjQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0xX1Q2djA1dGp6aCIsImV4cCI6MTYwMTUzOTk4MiwiaWF0IjoxNjAxNTM2MzgyLCJqdGkiOiJkYThkMmI5NS1jOGJmLTRiNWUtYWEzOS0zZmQ1OGJmMjlkNWYiLCJjbGllbnRfaWQiOiJlcWxyZXRuc2V0a2o1cDU3YnF0YW5kanFhIiwidXNlcm5hbWUiOiJhcnBlY29wIn0.LMX3fIXkc-Q04RhVM8mbrPFQm2dsxlrc4AcRBMultEmcQdTPeJ20fu3XJWcHgBpjZAA2zh5aamZYaSMcgPEt2OkxojVsZj6ZzsPJqrcfh-1JhwGUTvg-k6qd4OYgJMv-7A64Cl7PmiAHQAtPjJBXwXNnYGOXADRmRjephojUwU_dwMpWlCnuV0y-GlzpC-T7f5m75PeeMJ56vI0mR94UUpuiVuLvqjFCGyAHtCWo9l11tQJ35d6TIpm9KeNewHWND_zCsiiZxfd0tkBPW6xTeDCkfKXPzhE_TfkukP0Mz3NieXuDimdbt7jRKPHxZRHYJUb9M0PrxqLeOcS5uiA4xg',
       );
 
       setData(response.data);
@@ -22,7 +17,8 @@ const Home = ({ user }) => {
   return (
     <div>
       <h1>Начало</h1>
-
+      {JSON.stringify(user)}
+      <hr />
       {JSON.stringify(data)}
     </div>
   );

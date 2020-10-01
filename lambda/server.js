@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 const authenticatedRoute = express.Router();
 
-app.use('/api', authenticatedRoute);
+
 
 // Initializing CognitoExpress constructor
 const cognitoExpress = new CognitoExpress({
@@ -26,6 +26,7 @@ const cognitoExpress = new CognitoExpress({
 });
 
 authenticatedRoute.use((req, res, next) => {
+  console.log(req.headers);
   const accessTokenFromClient = req.headers.accesstoken;
   if (!accessTokenFromClient) { return res.status(401).send('Access Token missing from header'); }
 
@@ -35,14 +36,13 @@ authenticatedRoute.use((req, res, next) => {
     next();
   });
 });
-
+app.use('/api', authenticatedRoute);
 // Define your routes that need authentication check
-authenticatedRoute.post('/', (req, res, next) => {
-  res.send(`Hi ${res.locals.user.username}, your API call is authenticated!`);
+authenticatedRoute.get('/', (req, res, next) => {
+  res.json(res.locals.user);
 });
 
-app.get('/', (req, res) => { res.end('test'); });
-
+ 
 if (!process.env.LAMBDA_RUNTIME_DIR) {
   app.listen(process.env.PORT || 3001);
 }
