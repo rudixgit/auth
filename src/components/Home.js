@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { query, post } from '../utils/api';
+import { post } from '../utils/api';
 
 const Home = ({ user }) => {
   const [data, setData] = useState({ Items: [] });
