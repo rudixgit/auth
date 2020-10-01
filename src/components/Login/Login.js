@@ -40,9 +40,12 @@ const Login = ({ type }) => {
     try {
       await Auth.signIn(username, password);
       const user1 = await Auth.currentAuthenticatedUser();
+      const session = await Auth.currentSession();
+      console.log(session.accessToken.jwtToken);
       const userInfo = {
         ...user1.attributes,
         username: user1.username,
+        token: session.accessToken.jwtToken,
       };
       setUser(userInfo);
 

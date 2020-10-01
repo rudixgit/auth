@@ -35,20 +35,20 @@ const App = () => {
   const user = user1.sub ? user1 : userStorage;
   useEffect(() => {
     async function fetchData() {
-      try {
-        const test = await Auth.currentSession();
-        console.log(test.accessToken.jwtToken);
-      } catch (err) {
-        console.log(err);
-      }
+
       // setData(response.data);
     }
     fetchData();
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));
-    // window.location.reload();
+
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
   };
   const handleClick = (e) => {
     setSelected(e.key);
