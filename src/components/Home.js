@@ -5,15 +5,12 @@ const Home = ({ user }) => {
   const [data, setData] = useState({ hits: [] });
   useEffect(() => {
     async function fetchData() {
-      const response = await query(
-        '/',
-        user.token,
-      );
+      const response = await query('/', user.token);
 
       setData(response.data);
     }
     fetchData();
-  }, []);
+  }, [user.token]);
   return (
     <div>
       <h1>Начало</h1>
