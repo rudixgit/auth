@@ -8,6 +8,11 @@ const app = express();
 
 const compression = require('compression');
 const cors = require('cors');
+const {
+  put,
+  query,
+} = require('./src/db.js')
+
 
 app.use(compression());
 app.use(cors());
@@ -27,21 +32,22 @@ const cognitoExpress = new CognitoExpress({
 
 authenticatedRoute.use((req, res, next) => {
   const accessTokenFromClient = req.headers.accesstoken;
-  if (!accessTokenFromClient) { return res.status(401).send('Access Token missing from header'); }
+  if (!accessTokenFromClient) { return res.status(200).json({ err:'Access Token missing from header'}); }
 
   cognitoExpress.validate(accessTokenFromClient, (err, response) => {
-    if (err) return res.status(401).send(err);
+    if (err) return res.status(200).json(err);
     res.locals.user = response;
     next();
   });
 });
-app.use('/api', authenticatedRoute);
+
 // Define your routes that need authentication check
 authenticatedRoute.get('/', (req, res, next) => {
   res.json(res.locals.user);
 });
-authenticatedRoute.get('/api', (req, res, next) => {
-  res.json(res.locals.user);
+app.post('/db',authenticatedRoute, async (req, res, next) => {
+  const result = await query(req.body);
+  res.json(result);  
 });
 
  

@@ -21,3 +21,15 @@ export const query = async (id, token) => {
     resolve(result);
   });
 };
+export const post = async (json, token) => {
+  const result = await axios.post(`${env.api}/db`, JSON.stringify(json), {
+    headers: {
+      test: 'emperror',
+      accesstoken: token,
+      'Content-Type': 'application/json',
+    },
+  });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
+};

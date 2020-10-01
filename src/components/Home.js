@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { query } from '../utils/api';
+import { query, post } from '../utils/api';
 
 const Home = ({ user }) => {
-  const [data, setData] = useState({ hits: [] });
+  const [data, setData] = useState({ Items: [] });
   useEffect(() => {
     async function fetchData() {
-      const response = await query('/api/', user.token);
+      const response = await post(
+        {
+          collection: 'newsbg',
+          limit: 10,
+          descending: false,
+          fields: ['title', 'image', 'vreme'],
+        },
+        user.token,
+      );
 
       setData(response.data);
     }
