@@ -5,7 +5,7 @@ const Home = ({ user }) => {
   const [data, setData] = useState({ hits: [] });
   useEffect(() => {
     async function fetchData() {
-      const response = await query('/', user.token);
+      const response = await query('/api/', user.token);
 
       setData(response.data);
     }

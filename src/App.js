@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -33,13 +33,6 @@ const App = () => {
     ? JSON.parse(localStorage.getItem('user'))
     : { sub: null };
   const user = user1.sub ? user1 : userStorage;
-  useEffect(() => {
-    async function fetchData() {
-
-      // setData(response.data);
-    }
-    fetchData();
-  }, []);
 
   const logout = async () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));

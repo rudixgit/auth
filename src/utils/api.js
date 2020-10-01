@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const env1 = {
   development: {
-    api: 'http://localhost:3001/api',
+    api: 'http://localhost:3001',
   },
   production: {
     api: 'https://47ruk9bopl.execute-api.eu-central-1.amazonaws.com/dev',

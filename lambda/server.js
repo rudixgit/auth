@@ -26,7 +26,6 @@ const cognitoExpress = new CognitoExpress({
 });
 
 authenticatedRoute.use((req, res, next) => {
-  console.log(req.headers);
   const accessTokenFromClient = req.headers.accesstoken;
   if (!accessTokenFromClient) { return res.status(401).send('Access Token missing from header'); }
 
@@ -39,6 +38,9 @@ authenticatedRoute.use((req, res, next) => {
 app.use('/api', authenticatedRoute);
 // Define your routes that need authentication check
 authenticatedRoute.get('/', (req, res, next) => {
+  res.json(res.locals.user);
+});
+authenticatedRoute.get('/api', (req, res, next) => {
   res.json(res.locals.user);
 });
 
