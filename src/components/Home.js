@@ -9,7 +9,7 @@ const Home = ({ user }) => {
       const response = await post(
         {
           collection: 'newsbg',
-          limit: 10,
+          limit: 1,
           descending: false,
           fields: ['title', 'image', 'vreme'],
         },
@@ -24,7 +24,7 @@ const Home = ({ user }) => {
       <h1>Начало</h1>
       <h1>{user.sub}</h1>
       <hr />
-
+      {JSON.stringify(data)}
     </div>
   );
 };
