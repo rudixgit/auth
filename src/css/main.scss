@@ -1,19 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;600&display=swap');
 
 body {
-   font-family: 'Comfortaa';
-   font-weight: 600;
-   background-color: #ecf0f1;
+  font-family: 'Comfortaa';
+  font-weight: 600;
+  background-color: #ecf0f1;
 }
+input {
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+.form-title {
+  width: 150px;
+  text-align: right;
+}
+.switcher {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
 .ant-menu {
+  text-align: center;
+  border: none;
+  
+  .ant-menu-item-selected,
+  .ant-menu-item-active {
+    border-color: rebeccapurple !important;
+
+    a {
+      color: rebeccapurple !important;
+    }
+  }
+}
+
+.dark {
    
-    
-   .ant-menu-item-selected,
-   .ant-menu-item-active {
-      border-color: rebeccapurple !important;
-       
+  
+  background-color: #2d3436;
+  color: #ecf0f1;
+  h1 {
+    color: #ecf0f1;
+  }
+  .ant-menu {
+    background-color: #2d3436;
+    .ant-menu-item {
+    a {
+      color: #b2bec3;
+    }
+  }
+    .ant-menu-item-selected,
+    .ant-menu-item-active {
+      border-color: white !important;
+
       a {
-       color: rebeccapurple !important; 
+        color:white !important;
       }
-   }
+    }
+  }
 }

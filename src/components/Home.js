@@ -3,6 +3,7 @@ import { post } from '../utils/api';
 
 const Home = ({ user }) => {
   const [data, setData] = useState({ Items: [] });
+
   useEffect(() => {
     async function fetchData() {
       const response = await post(
@@ -14,7 +15,6 @@ const Home = ({ user }) => {
         },
         user.token,
       );
-
       setData(response.data);
     }
     fetchData();
@@ -22,7 +22,7 @@ const Home = ({ user }) => {
   return (
     <div>
       <h1>Начало</h1>
-      {JSON.stringify(user)}
+      <h1>{user.sub}</h1>
       <hr />
       {JSON.stringify(data)}
     </div>

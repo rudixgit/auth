@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { Input } from 'antd';
 import Error from '../Error';
-import Login from './Login';
 
 const SignUp = () => {
   const [state, setState] = useState({
@@ -99,9 +98,8 @@ const SignUp = () => {
 
       {state.stage === 2 && (
         <>
-          Регистрациятя успешна
-          <h1>Вход</h1>
-          <Login type="full" />
+          Регистрациятя успешна ,
+          <a href="/app/login">Вход</a>
         </>
       )}
     </div>

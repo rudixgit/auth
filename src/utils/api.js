@@ -9,7 +9,7 @@ const env1 = {
   },
 };
 export const env = env1[process.env.NODE_ENV];
-export const query = async (id, token) => {
+export const get = async (id, token) => {
   const result = await axios.get(`${env.api}${id}`, {
     headers: {
       test: 'emperror',

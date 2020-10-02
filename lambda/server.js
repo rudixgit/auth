@@ -9,7 +9,6 @@ const app = express();
 const compression = require('compression');
 const cors = require('cors');
 const {
-  put,
   query,
 } = require('./src/db.js')
 
@@ -32,16 +31,17 @@ const cognitoExpress = new CognitoExpress({
 
 authenticatedRoute.use((req, res, next) => {
   const accessTokenFromClient = req.headers.accesstoken;
-  if (!accessTokenFromClient) { return res.status(200).json({ err:'Access Token missing from header'}); }
+  if (!accessTokenFromClient) { return res.status(200).json({ name:'TokenMissing'}); }
 
   cognitoExpress.validate(accessTokenFromClient, (err, response) => {
-    if (err) return res.status(200).json(err);
+    if (err) return res.status(200).json(err === 'Not a valid JWT token' ? {name:"NotValidToken"}:err);
     res.locals.user = response;
     next();
   });
 });
 
 // Define your routes that need authentication check
+app.use('/heartbeat', authenticatedRoute);
 authenticatedRoute.get('/', (req, res, next) => {
   res.json(res.locals.user);
 });

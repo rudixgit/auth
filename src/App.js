@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,15 +6,18 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import { Menu } from 'antd';
-import { useRecoilValue } from 'recoil';
+
+import { Menu, Switch as Switch1 } from 'antd';
+import { useRecoilState } from 'recoil';
 import { Amplify, Auth } from 'aws-amplify';
 import Layout from './components/layout';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Forgot from './components/Login/Forgot';
 import Home from './components/Home';
+import Form from './components/Form';
 import { loggedInUserData } from './utils/state';
+import { get } from './utils/api';
 
 Amplify.configure({
   aws_project_region: 'eu-west-1',
@@ -26,78 +29,137 @@ Amplify.configure({
   oauth: {},
 });
 
+function useLocalStorage(key, initialValue) {
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      // Get from local storage by key
+      const item = window.localStorage.getItem(key);
+      // Parse stored json or if none return initialValue
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      // If error also return initialValue
+      console.log(error);
+      return initialValue;
+    }
+  });
+
+  const setValue = (value) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      // A more advanced implementation would handle the error case
+      console.log(error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+
 const App = () => {
-  const [selected, setSelected] = useState('home');
-  const user1 = useRecoilValue(loggedInUserData);
-  const userStorage = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))
-    : { sub: null };
-  const user = user1.sub ? user1 : userStorage;
+  const [selected, setSelected] = useLocalStorage('selected', 'home');
+  const [dark, setDark] = useLocalStorage('theme', false);
+  const [user, setUser] = useRecoilState(loggedInUserData);
+
+  // const user = user1.sub ? user1 : userStorage;
 
   const logout = async () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));
-
-    try {
-      await Auth.signOut();
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
+    await Auth.signOut();
   };
   const handleClick = (e) => {
     setSelected(e.key);
   };
+  const session = async () => {
+    const sess = await get('/heartbeat', user.token);
+
+    if (sess.data.name === 'TokenExpiredError') {
+
+      // localStorage.setItem('user', JSON.stringify(userInfo));
+    }
+  };
+  useEffect(() => {
+    const userStorage = localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user'))
+      : { sub: null };
+    setUser(userStorage);
+  }, []);
+
+  useEffect(() => {
+    if (user.sub) {
+      const interval = setInterval(() => {
+        session();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
   return (
     <Router>
-      <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
-        <Menu.Item key="home">
-          <Link to="/">Начало</Link>
-        </Menu.Item>
-        {user.sub === null ? (
-          <>
-            <Menu.Item key="login">
-              <Link to="/app/login">Вход</Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
-              <Link to="/app/signup">Регистрация</Link>
-            </Menu.Item>
-            <Menu.Item key="forgot">
-              <Link to="/app/forgot">Забравена парола</Link>
-            </Menu.Item>
-          </>
-        ) : (
-          <>
-            <Menu.Item key="logout">
-              <a href="/" onClick={() => Auth.signOut().then(logout())}>
-                Изход
-              </a>
-            </Menu.Item>
-          </>
-        )}
-      </Menu>
+      <div className={dark ? 'dark' : 'white'}>
 
-      <Layout>
-        <Switch>
-          <Route path="/app/login">
-            {user.sub === null ? (
-              <>
-                <h1>Вход</h1>
-                <Login type="full" />
-              </>
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
-          <Route path="/app/forgot">
-            <Forgot />
-          </Route>
-          <Route path="/app/signup">
-            <SignUp />
-          </Route>
-          <Route path="/">
-            <Home user={user} />
-          </Route>
-        </Switch>
-      </Layout>
+        <Menu onClick={handleClick} selectedKeys={[selected]} mode="horizontal">
+          <Menu.Item key="home">
+            <Link to="/">Начало</Link>
+          </Menu.Item>
+          {user.sub === null ? (
+            <>
+              <Menu.Item key="login">
+                <Link to="/app/login">Вход</Link>
+              </Menu.Item>
+              <Menu.Item key="signup">
+                <Link to="/app/signup">Регистрация</Link>
+              </Menu.Item>
+              <Menu.Item key="forgot">
+                <Link to="/app/forgot">Забравена парола</Link>
+              </Menu.Item>
+            </>
+          ) : (
+            <>
+              <Menu.Item key="form">
+                <Link to="/app/form">Добави</Link>
+              </Menu.Item>
+              <Menu.Item key="logout">
+                <a href="/" onClick={() => Auth.signOut().then(logout())}>
+                  Изход
+                </a>
+              </Menu.Item>
+            </>
+          )}
+        </Menu>
+        <div className="switcher">
+          <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
+        </div>
+        <Layout>
+          <Switch>
+            <Route path="/app/login">
+              {user.sub === null ? (
+                <>
+                  <h1>Вход</h1>
+                  <Login type="full" />
+                </>
+              ) : (
+                <Redirect to="/" />
+              )}
+            </Route>
+            <Route path="/app/forgot">
+              <Forgot />
+            </Route>
+            <Route path="/app/signup">
+              <SignUp />
+            </Route>
+            <Route path="/app/form">
+              <Form user={user} />
+            </Route>
+            <Route path="/">
+              <Home user={user} />
+            </Route>
+          </Switch>
+        </Layout>
+      </div>
     </Router>
   );
 };
