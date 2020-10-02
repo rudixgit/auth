@@ -54,9 +54,7 @@ const App = () => {
     setUser(userStorage);
     setInit(true);
   }, [setUser, init]);
-  const refreshSession = () => {
 
-  };
   useEffect(() => {
     if (user.sub) {
       const interval = setInterval(async () => {
@@ -85,7 +83,7 @@ const App = () => {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [user, refreshSession]);
+  }, [user, setUser]);
 
   return (
     <Router>
