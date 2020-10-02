@@ -24,7 +24,7 @@ const Home = ({ user }) => {
       <h1>Начало</h1>
       <h1>{user.sub}</h1>
       <hr />
-      {JSON.stringify(data)}
+
     </div>
   );
 };
