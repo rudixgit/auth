@@ -73,25 +73,23 @@ const App = () => {
   const handleClick = (e) => {
     setSelected(e.key);
   };
-  const session = async () => {
-    const sess = await get('/heartbeat', user.token);
 
-    if (sess.data.name === 'TokenExpiredError') {
-
-      // localStorage.setItem('user', JSON.stringify(userInfo));
-    }
-  };
   useEffect(() => {
     const userStorage = localStorage.getItem('user')
       ? JSON.parse(localStorage.getItem('user'))
       : { sub: null };
     setUser(userStorage);
-  }, []);
+  }, [setUser]);
 
   useEffect(() => {
     if (user.sub) {
-      const interval = setInterval(() => {
-        session();
+      const interval = setInterval(async () => {
+        // session();
+        const sess = await get('/heartbeat', user.token);
+
+        if (sess.data.name === 'TokenExpiredError') {
+          // localStorage.setItem('user', JSON.stringify(userInfo));
+        }
       }, 5000);
       return () => clearInterval(interval);
     }
