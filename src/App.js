@@ -18,6 +18,7 @@ import Home from './components/Home';
 import Form from './components/Form';
 import { loggedInUserData } from './utils/state';
 import { get } from './utils/api';
+import useLocalStorage from './utils/hooks';
 
 Amplify.configure({
   aws_project_region: 'eu-west-1',
@@ -29,43 +30,14 @@ Amplify.configure({
   oauth: {},
 });
 
-function useLocalStorage(key, initialValue) {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error);
-      return initialValue;
-    }
-  });
-
-  const setValue = (value) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error);
-    }
-  };
-
-  return [storedValue, setValue];
-}
-
 const App = () => {
   const [selected, setSelected] = useLocalStorage('selected', 'home');
-  const [dark, setDark] = useLocalStorage('theme', false);
   const [user, setUser] = useRecoilState(loggedInUserData);
   const [init, setInit] = useState(false);
+  // localStorage.setItem('user', JSON.stringify({ ...user, token: 'invalid' }));
 
   // const user = user1.sub ? user1 : userStorage;
+  const [dark, setDark] = useLocalStorage('theme', false);
 
   const logout = async () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));
@@ -82,20 +54,38 @@ const App = () => {
     setUser(userStorage);
     setInit(true);
   }, [setUser, init]);
+  const refreshSession = () => {
 
+  };
   useEffect(() => {
     if (user.sub) {
       const interval = setInterval(async () => {
-        // session();
         const sess = await get('/heartbeat', user.token);
-
         if (sess.data.name === 'TokenExpiredError') {
+          try {
+            const cognitoUser = await Auth.currentAuthenticatedUser();
+            const currentSession = await Auth.currentSession();
+            cognitoUser.refreshSession(
+              currentSession.refreshToken,
+              (err, session) => {
+                const userSession = {
+                  ...user,
+                  token: session.accessToken.jwtToken,
+                  // refreshtoken: session.refreshToken.token,
+                };
+                setUser(user);
+                localStorage.setItem('user', JSON.stringify(userSession));
+              },
+            );
+          } catch (e) {
+            console.log('Unable to refresh Token', e);
+          }
           // localStorage.setItem('user', JSON.stringify(userInfo));
         }
-      }, 5000);
+      }, 1000);
       return () => clearInterval(interval);
     }
-  }, [user]);
+  }, [user, refreshSession]);
 
   return (
     <Router>
