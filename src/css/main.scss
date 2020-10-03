@@ -17,6 +17,10 @@ input {
   position: absolute;
   top: 55px;
   right: 10px;
+  z-index: 2;
+}
+.inputwrapper {
+  margin-bottom: 10px;
 }
 
 .ant-menu {

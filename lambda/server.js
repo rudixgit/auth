@@ -9,7 +9,7 @@ const app = express();
 const compression = require('compression');
 const cors = require('cors');
 const {
-  query,
+  query,put
 } = require('./src/db.js')
 
 
@@ -49,6 +49,11 @@ authenticatedRoute.get('/', (req, res, next) => {
 app.post('/db',authenticatedRoute, async (req, res, next) => {
   const result = await query(req.body);
   res.json(result);  
+});
+
+app.post('/insert', authenticatedRoute, async (req, res, next) => {
+  const result = await put(req.body);
+  res.json(result);
 });
 
  
