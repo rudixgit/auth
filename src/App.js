@@ -62,23 +62,20 @@ const App = () => {
       const interval = setInterval(async () => {
         const sess = await get('/heartbeat', user.token);
         if (sess.data.name === 'TokenExpiredError') {
-          try {
-            const cognitoUser = await Auth.currentAuthenticatedUser();
-            const currentSession = await Auth.currentSession();
-            cognitoUser.refreshSession(
-              currentSession.refreshToken,
-              (err, session) => {
-                const userSession = {
-                  ...user,
-                  token: session.accessToken.jwtToken,
-                };
-                setUser(userSession);
-                localStorage.setItem('user', JSON.stringify(userSession));
-              },
-            );
-          } catch (e) {
-            console.log('Unable to refresh Token', e);
-          }
+          const cognitoUser = await Auth.currentAuthenticatedUser();
+          const currentSession = await Auth.currentSession();
+          cognitoUser.refreshSession(
+            currentSession.refreshToken,
+            (err, session) => {
+              const userSession = {
+                ...user,
+                token: session.accessToken.jwtToken,
+              };
+              setUser(userSession);
+              localStorage.setItem('user', JSON.stringify(userSession));
+            },
+          );
+
           // localStorage.setItem('user', JSON.stringify(userInfo));
         }
       }, 1000);

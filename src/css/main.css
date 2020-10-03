@@ -17,8 +17,8 @@ input {
 
 .switcher {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 55px;
+  right: 10px;
 }
 
 .ant-menu {
@@ -44,6 +44,12 @@ input {
 
 .dark h1 {
   color: #ecf0f1;
+}
+
+.dark input {
+  background-color: #2d3436;
+  border: 1px solid #40a9ff;
+  color: white;
 }
 
 .dark .ant-menu {
