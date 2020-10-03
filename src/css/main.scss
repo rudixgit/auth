@@ -41,9 +41,16 @@ input {
   h1 {
     color: #ecf0f1;
   }
+
+  .MuiFormControl-root {
+    border-color: yellowgreen;
+    label {
+          color: white
+    }
+  }
   input {
     background-color: #2d3436;
-    border: 1px solid #40a9ff;
+    
     color: white
   }
   .ant-menu {
