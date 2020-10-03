@@ -24,7 +24,17 @@ export const get = async (id, token) => {
 export const post = async (json, token) => {
   const result = await axios.post(`${env.api}/db`, JSON.stringify(json), {
     headers: {
-      test: 'emperror',
+      accesstoken: token,
+      'Content-Type': 'application/json',
+    },
+  });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
+};
+export const put = async (json, token) => {
+  const result = await axios.post(`${env.api}/insert`, JSON.stringify(json), {
+    headers: {
       accesstoken: token,
       'Content-Type': 'application/json',
     },

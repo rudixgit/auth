@@ -30,7 +30,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-theme-switcher": "^1.1.1",
-    "recoil": "^0.0.10"
+    "recoil": "^0.0.10",
+    "timeago-react": "^3.0.0"
   },
   "scripts": {
     "predeploy": "yarn run build",

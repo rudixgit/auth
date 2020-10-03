@@ -81,3 +81,13 @@ input {
 .dark .ant-menu .ant-menu-item-active a {
   color: white !important;
 }
+
+.dark .ant-table .ant-table-content table {
+  background-color: #2d3436;
+  color: white;
+}
+
+.dark .ant-table .ant-table-content table thead tr th {
+  background-color: #2d3436;
+  color: white;
+}

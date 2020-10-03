@@ -73,4 +73,21 @@ input {
       }
     }
   }
+  .ant-table {
+    .ant-table-content {
+      table {
+        background-color:#2d3436;
+        color:white;
+        thead {
+          tr{
+            th{
+background-color:#2d3436;
+color:white;
+}
+          }
+          
+        }
+      }
+    }
+  }
 }
