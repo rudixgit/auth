@@ -6,7 +6,7 @@ import { post } from '../utils/api';
 const Home = ({ user }) => {
   const [data, setData] = useState({ Items: [] });
   const {
-    control, register, errors, handleSubmit,
+    control, errors, handleSubmit,
   } = useForm();
 
   const onSubmit = (data) => console.log(data);
