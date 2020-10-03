@@ -34,6 +34,7 @@ const App = () => {
   const [selected, setSelected] = useLocalStorage('selected', 'home');
   const [user, setUser] = useRecoilState(loggedInUserData);
   const [init, setInit] = useState(false);
+
   // localStorage.setItem('user', JSON.stringify({ ...user, token: 'invalid' }));
 
   // const user = user1.sub ? user1 : userStorage;
@@ -48,8 +49,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    const userStorage = localStorage.getItem('user')
-      ? JSON.parse(localStorage.getItem('user'))
+    const prevStorage = localStorage.getItem('user');
+    const userStorage = prevStorage
+      ? JSON.parse(prevStorage)
       : { sub: null };
     setUser(userStorage);
     setInit(true);
@@ -69,9 +71,8 @@ const App = () => {
                 const userSession = {
                   ...user,
                   token: session.accessToken.jwtToken,
-                  // refreshtoken: session.refreshToken.token,
                 };
-                setUser(user);
+                setUser(userSession);
                 localStorage.setItem('user', JSON.stringify(userSession));
               },
             );

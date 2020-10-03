@@ -54,7 +54,7 @@ const Forgot = () => {
         await Auth.forgotPasswordSubmit(
           state.username,
           state.validation,
-          state.password
+          state.password,
         );
         setState({ ...state, stage: 3, error: { name: 'Empty' } });
       } else {

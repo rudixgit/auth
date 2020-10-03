@@ -42,6 +42,7 @@ authenticatedRoute.use((req, res, next) => {
 
 // Define your routes that need authentication check
 app.use('/heartbeat', authenticatedRoute);
+app.get('/heartbeat1',(req,res)=>{res.json({ name: 'TokenExpiredError' });})
 authenticatedRoute.get('/', (req, res, next) => {
   res.json(res.locals.user);
 });
