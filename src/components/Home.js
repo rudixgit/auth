@@ -15,6 +15,7 @@ const Home = ({ user }) => {
     const newData = { ...data, vreme: new Date().getTime(), tip: `test-${user.username}` };
     setFields((prevState) => ({ Items: [newData, ...prevState.Items] }));
     await put(newData, user.token);
+
     setValue('task', '');
     setValue('email', '');
   };
@@ -24,7 +25,7 @@ const Home = ({ user }) => {
       const response = await post(
         {
           collection: `test-${user.username}`,
-          limit: 10,
+
           descending: false,
         },
         user.token,
@@ -101,7 +102,7 @@ const Home = ({ user }) => {
             key: 'date',
             render: (date) => (
               <div>
-                <TimeAgo datetime={new Date(parseInt(date))} locale="bg_BG" />
+                <TimeAgo datetime={new Date(date)} locale="bg_BG" />
 
               </div>
             ),
