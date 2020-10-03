@@ -90,4 +90,14 @@ input {
 .dark .ant-table .ant-table-content table thead tr th {
   background-color: #2d3436;
   color: white;
+  font-size: 120%;
+  font-weight: bolder;
+}
+
+.dark .ant-table .ant-table-content table tbody tr td {
+  border: none;
+}
+
+.dark .ant-table .ant-table-content table tbody tr:hover {
+  color: #3498db;
 }

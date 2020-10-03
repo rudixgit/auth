@@ -26,7 +26,7 @@ input {
 .ant-menu {
   text-align: center;
   border: none;
-  
+
   .ant-menu-item-selected,
   .ant-menu-item-active {
     border-color: rebeccapurple !important;
@@ -38,8 +38,8 @@ input {
 }
 
 .dark {
-   height: 100vh;
-  
+  height: 100vh;
+
   background-color: #2d3436;
   color: #ecf0f1;
   h1 {
@@ -49,43 +49,55 @@ input {
   .MuiFormControl-root {
     border-color: yellowgreen;
     label {
-          color: white
+      color: white;
     }
   }
   input {
     background-color: #2d3436;
-    
-    color: white
+
+    color: white;
   }
   .ant-menu {
     background-color: #2d3436;
     .ant-menu-item {
-    a {
-      color: #b2bec3;
+      a {
+        color: #b2bec3;
+      }
     }
-  }
     .ant-menu-item-selected,
     .ant-menu-item-active {
       border-color: white !important;
 
       a {
-        color:white !important;
+        color: white !important;
       }
     }
   }
   .ant-table {
     .ant-table-content {
       table {
-        background-color:#2d3436;
-        color:white;
+        background-color: #2d3436;
+        color: white;
         thead {
-          tr{
-            th{
-background-color:#2d3436;
-color:white;
-}
+          tr {
+            th {
+              background-color: #2d3436;
+             color: white;
+             font-size: 120%;
+             font-weight: bolder;
+            }
           }
-          
+        }
+        tbody {
+         tr{
+           td{
+           border:none;
+           }
+         }
+          tr:hover{
+            color: #3498db;
+            
+          }
         }
       }
     }
