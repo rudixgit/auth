@@ -3,9 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Table } from 'antd';
 import TimeAgo from 'timeago-react';
+import { useRecoilState } from 'recoil';
 import { post, put } from '../utils/api';
+import { navigation } from '../utils/state';
 
 const Home = ({ user }) => {
+  const [nav, setNav] = useRecoilState(navigation);
   const [fields, setFields] = useState({ Items: [] });
   const {
     control, errors, handleSubmit, setValue,
@@ -27,7 +30,9 @@ const Home = ({ user }) => {
     setValue('task', '');
     setValue('email', '');
   };
-
+  useEffect(() => {
+    setNav('home');
+  }, [setNav, nav]);
   useEffect(() => {
     async function fetchData() {
       const response = await post(
