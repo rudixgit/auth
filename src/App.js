@@ -14,6 +14,7 @@ import Layout from './components/layout';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Forgot from './components/Login/Forgot';
+import Welcome from './components/Welcome';
 import Home from './components/Home';
 import { loggedInUserData, navigation } from './utils/state';
 import { get } from './utils/api';
@@ -101,6 +102,7 @@ const App = () => {
               </>
             ) : (
               <>
+
                 <Menu.Item key="logout">
                   <a href="/" onClick={() => Auth.signOut().then(logout())}>
                     Изход
@@ -131,7 +133,7 @@ const App = () => {
                 <SignUp />
               </Route>
               <Route path="/">
-                {user.sub === null ? <Redirect to="/app/login" /> : <Home user={user} />}
+                {user.sub === null ? <Welcome /> : <Home user={user} />}
               </Route>
             </Switch>
           </Layout>
