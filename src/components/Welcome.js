@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React, { useEffect } from 'react';
+
 import { useRecoilState } from 'recoil';
-import { post } from '../utils/api';
+// import { post } from '../utils/api';
 import { navigation } from '../utils/state';
 
 const Welcome = () => {
