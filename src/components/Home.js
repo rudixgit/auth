@@ -17,7 +17,12 @@ const Home = ({ user }) => {
       vreme: new Date().getTime(),
       tip: `test-${user.username}`,
     };
-    setFields((prevState) => ({ Items: [newData, ...prevState.Items] }));
+
+    setFields(
+      fields.Items
+        ? { Items: [newData, ...fields.Items] }
+        : { Items: [newData] },
+    );
     await put(newData, user.token);
     setValue('task', '');
     setValue('email', '');
@@ -84,6 +89,7 @@ const Home = ({ user }) => {
       </form>
       <hr />
       <Table
+        rowKey="vreme"
         dataSource={fields.Items}
         columns={[
           {
