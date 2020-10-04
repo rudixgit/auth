@@ -2,13 +2,13 @@ import React from 'react';
 import { Alert } from 'antd';
 
 const translated = {
-  UserNotFoundException: 'Потребителя не съществува',
-  AuthError: 'Потребител или парола не могат да бъдат празни',
-  CodeMismatchException: 'Невалиден код , моля опитайте отново',
-  NotAuthorizedException: 'Потребител или парола невалидни',
-  UsernameExistsException: 'Потребителя съществува',
-  PasswordNotMatch: 'Паролите не съвпадат',
-  InvalidParameterException: 'Паролата трябва да е поне 6 символа',
+  UserNotFoundException: 'Username does not exist',
+  AuthError: 'Username or Password cannot be empty',
+  CodeMismatchException: 'Invalid code, please try again',
+  NotAuthorizedException: 'Username or Password invalid',
+  UsernameExistsException: 'The user does not exist',
+  PasswordNotMatch: 'Passwords do not match',
+  InvalidParameterException: 'The password need to be at least 6 symbols',
   Empty: '',
 };
 

@@ -86,18 +86,18 @@ const App = () => {
             mode="horizontal"
           >
             <Menu.Item key="home">
-              <Link to="/">Начало</Link>
+              <Link to="/">Home</Link>
             </Menu.Item>
             {user.sub === null ? (
               <>
                 <Menu.Item key="login">
-                  <Link to="/app/login">Вход</Link>
+                  <Link to="/app/login">Login</Link>
                 </Menu.Item>
                 <Menu.Item key="signup">
-                  <Link to="/app/signup">Регистрация</Link>
+                  <Link to="/app/signup">Sign Up</Link>
                 </Menu.Item>
                 <Menu.Item key="forgot">
-                  <Link to="/app/forgot">Забравена парола</Link>
+                  <Link to="/app/forgot">Forgot Password</Link>
                 </Menu.Item>
               </>
             ) : (
@@ -105,7 +105,7 @@ const App = () => {
 
                 <Menu.Item key="logout">
                   <a href="/" onClick={() => Auth.signOut().then(logout())}>
-                    Изход
+                    Logout
                   </a>
                 </Menu.Item>
               </>
@@ -119,7 +119,7 @@ const App = () => {
               <Route path="/app/login">
                 {user.sub === null ? (
                   <>
-                    <h1>Вход</h1>
+                    <h1>Login</h1>
                     <Login type="full" />
                   </>
                 ) : (

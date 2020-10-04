@@ -83,14 +83,14 @@ const Forgot = () => {
   };
   return (
     <div>
-      <h1>Забвавена парола</h1>
+      <h1>Forgot Password</h1>
       {state.error && <Error errorMessage={state.error} />}
 
       {state.stage === 0 && (
         <div style={styles.formContainer}>
           <Input
             onChange={handleUpdate}
-            placeholder="Потребител"
+            placeholder="username"
             name="username"
             value={state.username}
             style={styles.Input}
@@ -103,17 +103,17 @@ const Forgot = () => {
             onClick={login}
             onKeyDown={login}
           >
-            <span style={styles.buttonText}>Нататък</span>
+            <span style={styles.buttonText}>Next</span>
           </div>
         </div>
       )}
 
       {state.stage === 1 && (
         <div>
-          <div>Провери имейла си за потвърждаващ код</div>
+          <div>Check your email for confirmation code</div>
           <Input
             onChange={handleUpdate}
-            placeholder="потвърждаващ код"
+            placeholder="confirmation code"
             name="validation"
             value={state.validation}
             style={styles.Input}
@@ -158,14 +158,16 @@ const Forgot = () => {
             onClick={changePassword}
             onKeyDown={changePassword}
           >
-            <span style={styles.buttonText}>Смени</span>
+            <span style={styles.buttonText}>Change password</span>
           </div>
         </div>
       )}
       {state.stage === 3 && (
         <>
-          <h1>Вход</h1>
-          <Login type="full" />
+          <>
+            Password changed ,
+            <a href="/app/login">Login</a>
+          </>
         </>
       )}
     </div>

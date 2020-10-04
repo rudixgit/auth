@@ -56,18 +56,18 @@ const SignUp = () => {
     <div>
       {state.stage === 0 && (
         <div style={styles.formContainer}>
-          <h1>Регистрация</h1>
+          <h1>Sign Up</h1>
           {state.error && <Error errorMessage={state.error} />}
           <Input
             onChange={handleUpdate}
-            placeholder="Потребител"
+            placeholder="Username"
             name="username"
             value={state.username}
             style={styles.Input}
           />
           <Input
             onChange={handleUpdate}
-            placeholder="Парола"
+            placeholder="Password"
             name="password"
             value={state.password}
             type="password"
@@ -88,7 +88,7 @@ const SignUp = () => {
       )}
       {state.stage === 1 && (
         <div style={styles.formContainer}>
-          <h1>Регистрация</h1>
+          <h1>Registration</h1>
           {state.error && <Error errorMessage={state.error} />}
           <Input
             onChange={handleUpdate}
@@ -105,8 +105,8 @@ const SignUp = () => {
 
       {state.stage === 2 && (
         <>
-          Регистрациятя успешна ,
-          <a href="/app/login">Вход</a>
+          Registratino successful ,
+          <a href="/app/login">Login</a>
         </>
       )}
     </div>
