@@ -6,6 +6,27 @@ import { useRecoilState } from 'recoil';
 import Error from '../Error';
 import { navigation } from '../../utils/state';
 
+const styles = {
+  Input: {
+    height: 40,
+    margin: '10px 0px',
+    padding: 7,
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  button: {
+    backgroundColor: 'rebeccapurple',
+    padding: '15px 7px',
+    cursor: 'pointer',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+  },
+};
 const SignUp = () => {
   const [nav, setNav] = useRecoilState(navigation);
   const [state, setState] = useState({
@@ -35,7 +56,7 @@ const SignUp = () => {
         password,
         attributes: { email },
       });
-      setState({ ...state, stage: 1 });
+      setState({ ...state, stage: 1, error: { name: 'Empty' } });
     } catch (err) {
       setState({ ...state, error: err });
       console.log('error signing up...', err);
@@ -111,28 +132,6 @@ const SignUp = () => {
       )}
     </div>
   );
-};
-
-const styles = {
-  Input: {
-    height: 40,
-    margin: '10px 0px',
-    padding: 7,
-  },
-  formContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  button: {
-    backgroundColor: 'rebeccapurple',
-    padding: '15px 7px',
-    cursor: 'pointer',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: 'white',
-  },
 };
 
 export default SignUp;

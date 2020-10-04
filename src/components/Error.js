@@ -14,15 +14,15 @@ const translated = {
 
 const Error = (props) => (
   <div>
-    {Object.entries(props).map(([err, val]) => (
-      <Alert
-        description={
+    {Object.entries(props).map(([err, val]) => val.name !== 'Empty' && (
+    <Alert
+      description={
           translated[val.name]
             ? translated[val.name]
             : `${val.message}-${val.name}`
         }
-        type="error"
-      />
+      type="error"
+    />
     ))}
   </div>
 );

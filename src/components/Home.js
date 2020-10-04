@@ -18,7 +18,7 @@ const Home = ({ user }) => {
     const newData = {
       ...data,
       vreme: new Date().getTime(),
-      tip: `test-${user.username}`,
+      tip: 'test-',
     };
 
     setFields(
@@ -27,6 +27,7 @@ const Home = ({ user }) => {
         : { Items: [newData] },
     );
     await put(newData, user.token);
+    await put({ ...newData, tip: 'test-all' }, user.token);
     setValue('task', '');
     setValue('email', '');
   };
@@ -37,7 +38,7 @@ const Home = ({ user }) => {
     async function fetchData() {
       const response = await post(
         {
-          collection: `test-${user.username}`,
+          collection: 'test-',
           descending: false,
         },
         user.token,

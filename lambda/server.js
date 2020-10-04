@@ -8,18 +8,13 @@ const app = express();
 
 const compression = require('compression');
 const cors = require('cors');
-const {
-  query,put
-} = require('./src/db.js')
-
+const { query, put } = require('./src/db.js');
 
 app.use(compression());
 app.use(cors());
 app.use(bodyParser.json());
 
 const authenticatedRoute = express.Router();
-
-
 
 // Initializing CognitoExpress constructor
 const cognitoExpress = new CognitoExpress({
@@ -29,12 +24,29 @@ const cognitoExpress = new CognitoExpress({
   tokenExpiration: 3600000, // Up to default expiration of 1 hour (3600000 ms)
 });
 
+function containsAny(str, substrings) {
+  for (var i = 0; i != substrings.length; i++) {
+    var substring = substrings[i];
+    if (str.indexOf(substring) != -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 authenticatedRoute.use((req, res, next) => {
   const accessTokenFromClient = req.headers.accesstoken;
-  if (!accessTokenFromClient) { return res.status(200).json({ name:'TokenMissing'}); }
+  if (!accessTokenFromClient) {
+    return res.status(200).json({ name: 'TokenMissing' });
+  }
 
   cognitoExpress.validate(accessTokenFromClient, (err, response) => {
-    if (err) return res.status(200).json(err === 'Not a valid JWT token' ? {name:"NotValidToken"}:err);
+    if (err)
+      return res
+        .status(200)
+        .json(
+          err === 'Not a valid JWT token' ? { name: 'NotValidToken' } : err
+        );
     res.locals.user = response;
     next();
   });
@@ -42,13 +54,22 @@ authenticatedRoute.use((req, res, next) => {
 
 // Define your routes that need authentication check
 app.use('/heartbeat', authenticatedRoute);
-app.get('/heartbeat1',(req,res)=>{res.json({ name: 'TokenExpiredError' });})
+app.get('/heartbeat1', (req, res) => {
+  res.json({ name: 'TokenExpiredError' });
+});
 authenticatedRoute.get('/', (req, res, next) => {
   res.json(res.locals.user);
 });
-app.post('/db',authenticatedRoute, async (req, res, next) => {
-  const result = await query(req.body);
-  res.json(result);  
+app.post('/db', authenticatedRoute, async (req, res, next) => {
+  const modded = {
+    ...req.body,
+    collection: containsAny(req.body.collection, ['all'])
+      ? req.body.collection
+      : req.body.collection + '' + res.locals.user.username,
+  };
+  console.log(modded);
+  const result = await query(modded);
+  res.json(result);
 });
 
 app.post('/insert', authenticatedRoute, async (req, res, next) => {
@@ -56,7 +77,6 @@ app.post('/insert', authenticatedRoute, async (req, res, next) => {
   res.json(result);
 });
 
- 
 if (!process.env.LAMBDA_RUNTIME_DIR) {
   app.listen(process.env.PORT || 3001);
 }
