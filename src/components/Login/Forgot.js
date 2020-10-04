@@ -4,7 +4,6 @@ import { Auth } from 'aws-amplify';
 import { Input } from 'antd';
 import { useRecoilState } from 'recoil';
 import Error from '../Error';
-import Login from './Login';
 
 import { navigation } from '../../utils/state';
 
