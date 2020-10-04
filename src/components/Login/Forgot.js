@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Auth } from 'aws-amplify';
 import { Input } from 'antd';
+import { useRecoilState } from 'recoil';
 import Error from '../Error';
 import Login from './Login';
+
+import { navigation } from '../../utils/state';
 
 const styles = {
   Input: {
@@ -28,6 +31,7 @@ const styles = {
   },
 };
 const Forgot = () => {
+  const [nav, setNav] = useRecoilState(navigation);
   const [state, setState] = useState({
     username: '',
     error: '',
@@ -36,6 +40,10 @@ const Forgot = () => {
     confirmPassword: '',
     stage: 0,
   });
+
+  useEffect(() => {
+    setNav('forgot');
+  }, [setNav, nav]);
   const login = async () => {
     try {
       await Auth.forgotPassword(state.username);

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Auth } from 'aws-amplify';
 import { Input } from 'antd';
+import { useRecoilState } from 'recoil';
 import Error from '../Error';
+import { navigation } from '../../utils/state';
 
 const SignUp = () => {
+  const [nav, setNav] = useRecoilState(navigation);
   const [state, setState] = useState({
     username: '',
     password: '',
@@ -13,6 +16,10 @@ const SignUp = () => {
     stage: 0,
     error: '',
   });
+
+  useEffect(() => {
+    setNav('signup');
+  }, [setNav, nav]);
   const handleUpdate = (event) => {
     setState({
       ...state,

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Auth } from 'aws-amplify';
 import { useRecoilState } from 'recoil';
 import { Input } from 'antd';
-import { loggedInUserData } from '../../utils/state';
+
+import { loggedInUserData, navigation } from '../../utils/state';
 import Error from '../Error';
 
 //
@@ -35,7 +36,10 @@ const Login = ({ type }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-
+  const [nav, setNav] = useRecoilState(navigation);
+  useEffect(() => {
+    setNav('login');
+  }, [setNav, nav]);
   const login = async () => {
     try {
       await Auth.signIn(username, password);

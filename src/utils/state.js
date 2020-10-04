@@ -11,3 +11,8 @@ export const loggedInUserData = atom({
     token: null,
   },
 });
+
+export const navigation = atom({
+  key: 'navigation',
+  default: 'home',
+});

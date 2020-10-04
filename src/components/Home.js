@@ -12,10 +12,13 @@ const Home = ({ user }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const newData = { ...data, vreme: new Date().getTime(), tip: `test-${user.username}` };
+    const newData = {
+      ...data,
+      vreme: new Date().getTime(),
+      tip: `test-${user.username}`,
+    };
     setFields((prevState) => ({ Items: [newData, ...prevState.Items] }));
     await put(newData, user.token);
-
     setValue('task', '');
     setValue('email', '');
   };
@@ -25,7 +28,6 @@ const Home = ({ user }) => {
       const response = await post(
         {
           collection: `test-${user.username}`,
-
           descending: false,
         },
         user.token,
@@ -37,7 +39,6 @@ const Home = ({ user }) => {
   return (
     <div>
       <h1>{user.username}</h1>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="inputwrapper">
           <Controller
@@ -82,7 +83,6 @@ const Home = ({ user }) => {
         </Button>
       </form>
       <hr />
-
       <Table
         dataSource={fields.Items}
         columns={[
@@ -103,7 +103,6 @@ const Home = ({ user }) => {
             render: (date) => (
               <div>
                 <TimeAgo datetime={new Date(date)} locale="bg_BG" />
-
               </div>
             ),
           },

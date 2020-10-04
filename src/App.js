@@ -8,15 +8,14 @@ import {
 } from 'react-router-dom';
 
 import { Menu, Switch as Switch1 } from 'antd';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Amplify, Auth } from 'aws-amplify';
 import Layout from './components/layout';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Forgot from './components/Login/Forgot';
 import Home from './components/Home';
-import Form from './components/Form';
-import { loggedInUserData } from './utils/state';
+import { loggedInUserData, navigation } from './utils/state';
 import { get } from './utils/api';
 import useLocalStorage from './utils/hooks';
 
@@ -31,21 +30,14 @@ Amplify.configure({
 });
 
 const App = () => {
-  const [selected, setSelected] = useLocalStorage('selected', 'home');
   const [user, setUser] = useRecoilState(loggedInUserData);
+  const nav = useRecoilValue(navigation);
   const [init, setInit] = useState(false);
-
-  // localStorage.setItem('user', JSON.stringify({ ...user, token: 'invalid' }));
-
-  // const user = user1.sub ? user1 : userStorage;
   const [dark, setDark] = useLocalStorage('theme', false);
 
   const logout = async () => {
     localStorage.setItem('user', JSON.stringify({ sub: null }));
     await Auth.signOut();
-  };
-  const handleClick = (e) => {
-    setSelected(e.key);
   };
 
   useEffect(() => {
@@ -88,8 +80,8 @@ const App = () => {
       {init && (
         <div className={dark ? 'dark' : 'white'}>
           <Menu
-            onClick={handleClick}
-            selectedKeys={[selected]}
+            // onClick={handleClick}
+            selectedKeys={[nav]}
             mode="horizontal"
           >
             <Menu.Item key="home">
@@ -109,9 +101,6 @@ const App = () => {
               </>
             ) : (
               <>
-                <Menu.Item key="form">
-                  <Link to="/app/form">Добави</Link>
-                </Menu.Item>
                 <Menu.Item key="logout">
                   <a href="/" onClick={() => Auth.signOut().then(logout())}>
                     Изход
@@ -141,11 +130,8 @@ const App = () => {
               <Route path="/app/signup">
                 <SignUp />
               </Route>
-              <Route path="/app/form">
-                <Form user={user} />
-              </Route>
               <Route path="/">
-                <Home user={user} />
+                {user.sub === null ? <Redirect to="/app/login" /> : <Home user={user} />}
               </Route>
             </Switch>
           </Layout>
