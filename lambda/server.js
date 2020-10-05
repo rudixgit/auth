@@ -54,26 +54,30 @@ authenticatedRoute.use((req, res, next) => {
 
 // Define your routes that need authentication check
 app.use('/heartbeat', authenticatedRoute);
-app.get('/heartbeat1', (req, res) => {
-  res.json({ name: 'TokenExpiredError' });
-});
-authenticatedRoute.get('/', (req, res, next) => {
-  res.json(res.locals.user);
-});
+ 
+ 
+const modded = (json, user) => {
+  const a = json.collection || json.tip;
+  const x = containsAny(a, ['all']) ? a : a + '' + user.username;
+  return ({
+    ...json,
+    tip:x,
+    collection: x,
+  });
+}
+
+
 app.post('/db', authenticatedRoute, async (req, res, next) => {
-  const modded = {
-    ...req.body,
-    collection: containsAny(req.body.collection, ['all'])
-      ? req.body.collection
-      : req.body.collection + '' + res.locals.user.username,
-  };
-  console.log(modded);
-  const result = await query(modded);
+  const modd = modded(req.body, res.locals.user);
+   
+  const result = await query(modd);
   res.json(result);
 });
 
 app.post('/insert', authenticatedRoute, async (req, res, next) => {
-  const result = await put(req.body);
+  const modd = modded(req.body, res.locals.user);
+   
+  const result = await put(modd);
   res.json(result);
 });
 
