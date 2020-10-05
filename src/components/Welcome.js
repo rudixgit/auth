@@ -4,12 +4,12 @@ import { useRecoilState } from 'recoil';
 import { postPublic } from '../utils/api';
 import { navigation } from '../utils/state';
 
-const Welcome = () => {
+const Welcome = ({ menu }) => {
   const [nav, setNav] = useRecoilState(navigation);
   const [fields, setFields] = useState({ Items: [] });
   useEffect(() => {
-    setNav('home');
-  }, [setNav, nav]);
+    setNav(menu);
+  }, [setNav, nav, menu]);
 
   useEffect(() => {
     async function fetchData() {
@@ -26,9 +26,16 @@ const Welcome = () => {
 
   return (
     <div>
-      <h1>Welcome, Guest</h1>
       <h2>Public Feed</h2>
-      {fields.Items.map((item) => (<div key={item.vreme}>{item.task}</div>))}
+      {fields.Items.map((item) => (
+        <div key={item.vreme}>
+
+          <small>
+            {`${item.username ? item.username : 'admin'} added: `}
+          </small>
+          {item.task}
+        </div>
+      ))}
     </div>
   );
 };

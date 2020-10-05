@@ -80,11 +80,7 @@ const App = () => {
     <Router>
       {init && (
         <div className={dark ? 'dark' : 'white'}>
-          <Menu
-            // onClick={handleClick}
-            selectedKeys={[nav]}
-            mode="horizontal"
-          >
+          <Menu selectedKeys={[nav]} mode="horizontal">
             <Menu.Item key="home">
               <Link to="/">Home</Link>
             </Menu.Item>
@@ -102,7 +98,9 @@ const App = () => {
               </>
             ) : (
               <>
-
+                <Menu.Item key="feed">
+                  <Link to="/app/feed">Feed</Link>
+                </Menu.Item>
                 <Menu.Item key="logout">
                   <a href="/" onClick={() => Auth.signOut().then(logout())}>
                     Logout
@@ -132,8 +130,15 @@ const App = () => {
               <Route path="/app/signup">
                 <SignUp />
               </Route>
+              <Route path="/app/feed">
+                <Welcome menu="feed" />
+              </Route>
               <Route path="/">
-                {user.sub === null ? <Welcome /> : <Home user={user} />}
+                {user.sub === null ? (
+                  <Welcome menu="home" />
+                ) : (
+                  <Home user={user} />
+                )}
               </Route>
             </Switch>
           </Layout>
