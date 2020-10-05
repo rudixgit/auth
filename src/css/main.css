@@ -47,7 +47,7 @@ input {
   color: #ecf0f1;
 }
 
-.dark h1 {
+.dark h1, .dark h2, .dark h3 {
   color: #ecf0f1;
 }
 

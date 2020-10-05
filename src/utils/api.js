@@ -32,6 +32,17 @@ export const post = async (json, token) => {
     resolve(result);
   });
 };
+export const postPublic = async (json) => {
+  const result = await axios.post(`${env.api}/dbpublic`, JSON.stringify(json), {
+    headers: {
+
+      'Content-Type': 'application/json',
+    },
+  });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
+};
 export const put = async (json, token) => {
   const result = await axios.post(`${env.api}/insert`, JSON.stringify(json), {
     headers: {

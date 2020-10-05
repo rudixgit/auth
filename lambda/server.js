@@ -53,7 +53,7 @@ authenticatedRoute.use((req, res, next) => {
 });
 
 // Define your routes that need authentication check
-app.use('/heartbeat', authenticatedRoute);
+
  
  
 const modded = (json, user) => {
@@ -61,22 +61,29 @@ const modded = (json, user) => {
   const x = containsAny(a, ['all']) ? a : a + '' + user.username;
   return ({
     ...json,
+    username:user.username,
     tip:x,
     collection: x,
   });
 }
 
-
+app.get('/heartbeat', authenticatedRoute, function (req, res) {
+  res.json({})
+});
 app.post('/db', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
-   
+  const result = await query(modd);
+  res.json(result);
+});
+
+app.post('/dbpublic', async (req, res, next) => {
+  const modd = modded(req.body, {username:'nonexist'});
   const result = await query(modd);
   res.json(result);
 });
 
 app.post('/insert', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
-   
   const result = await put(modd);
   res.json(result);
 });
