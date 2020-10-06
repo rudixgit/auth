@@ -51,27 +51,31 @@ const App = () => {
   }, [setUser, init]);
 
   useEffect(() => {
+    const heartbeat = async () => {
+      const sess = await get('/heartbeat', user.token);
+      if (sess.data.name === 'TokenExpiredError') {
+        const cognitoUser = await Auth.currentAuthenticatedUser();
+        const currentSession = await Auth.currentSession();
+        cognitoUser.refreshSession(
+          currentSession.refreshToken,
+          (err, session) => {
+            const userSession = {
+              ...user,
+              token: session.accessToken.jwtToken,
+            };
+            setUser(userSession);
+            localStorage.setItem('user', JSON.stringify(userSession));
+          },
+        );
+
+        // localStorage.setItem('user', JSON.stringify(userInfo));
+      }
+    };
+    heartbeat();
     if (user.sub) {
       const interval = setInterval(async () => {
-        const sess = await get('/heartbeat', user.token);
-        if (sess.data.name === 'TokenExpiredError') {
-          const cognitoUser = await Auth.currentAuthenticatedUser();
-          const currentSession = await Auth.currentSession();
-          cognitoUser.refreshSession(
-            currentSession.refreshToken,
-            (err, session) => {
-              const userSession = {
-                ...user,
-                token: session.accessToken.jwtToken,
-              };
-              setUser(userSession);
-              localStorage.setItem('user', JSON.stringify(userSession));
-            },
-          );
-
-          // localStorage.setItem('user', JSON.stringify(userInfo));
-        }
-      }, 1000);
+        heartbeat();
+      }, 20000);
       return () => clearInterval(interval);
     }
   }, [user, setUser]);
