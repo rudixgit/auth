@@ -8,7 +8,7 @@ const app = express();
 
 const compression = require('compression');
 const cors = require('cors');
-const { query, put } = require('./src/db.js');
+const { query, put,del } = require('./src/db.js');
 
 app.use(compression());
 app.use(cors());
@@ -75,6 +75,12 @@ app.post('/db', authenticatedRoute, async (req, res, next) => {
   const result = await query(modd);
   res.json(result);
 });
+app.post('/del', authenticatedRoute, async (req, res, next) => {
+  const modd = modded(req.body, res.locals.user);
+
+  const result = await del(modd);
+  res.json(result);
+});
 
 app.post('/dbpublic', async (req, res, next) => {
   const modd = modded(req.body, {username:'nonexist'});
@@ -85,6 +91,11 @@ app.post('/dbpublic', async (req, res, next) => {
 app.post('/insert', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
   const result = await put(modd);
+  res.json(result);
+});
+app.post('/register', async (req, res, next) => {
+  const {username,email,vreme,tip} = req.body 
+  const result = await put({ username, email, vreme, tip });
   res.json(result);
 });
 

@@ -5,6 +5,7 @@ import { Input } from 'antd';
 import { useRecoilState } from 'recoil';
 import Error from '../Error';
 import { navigation } from '../../utils/state';
+import { register } from '../../utils/api';
 
 const styles = {
   Input: {
@@ -64,9 +65,15 @@ const SignUp = () => {
   };
 
   const confirmSignUp = async () => {
-    const { username, authCode } = state;
+    const { username, authCode, email } = state;
     try {
       await Auth.confirmSignUp(username, authCode);
+      await register({
+        username,
+        email,
+        tip: 'usersauth',
+        vreme: new Date().getTime(),
+      });
       setState({ ...state, stage: 2, error: { name: 'Empty' } });
     } catch (err) {
       setState({ ...state, error: err });

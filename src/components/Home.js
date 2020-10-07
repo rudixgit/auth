@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button, Table } from 'antd';
 import TimeAgo from 'timeago-react';
 import { useRecoilState } from 'recoil';
-import { post, put } from '../utils/api';
+import { post, put, del } from '../utils/api';
 import { navigation } from '../utils/state';
 
 const Home = ({ user }) => {
@@ -20,7 +20,6 @@ const Home = ({ user }) => {
       vreme: new Date().getTime(),
       tip: 'test-',
     };
-
     setFields(
       fields.Items
         ? { Items: [newData, ...fields.Items] }
@@ -47,6 +46,10 @@ const Home = ({ user }) => {
     }
     fetchData();
   }, [user]);
+  const deleteMe = async (obj) => {
+    await del(obj, user.token);
+    setFields({ Items: fields.Items.filter((e) => e.vreme !== obj.id) });
+  };
   return (
     <div>
       <h1>{user.username}</h1>
@@ -116,6 +119,18 @@ const Home = ({ user }) => {
               <div>
                 <TimeAgo datetime={new Date(date)} locale="bg_BG" />
               </div>
+            ),
+          },
+          {
+            title: 'manage',
+            dataIndex: 'vreme',
+            key: 'date',
+            render: (vreme) => (
+              <Button
+                onClick={() => deleteMe({ collection: 'test-', id: vreme })}
+              >
+                Delete
+              </Button>
             ),
           },
         ]}

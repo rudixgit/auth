@@ -17,6 +17,29 @@ async function put(json) {
   });
 }
 
+
+async function del({ id, collection  }) {
+  const params = {
+    TableName: 'ddb',
+    Key: {
+      tip: collection,
+      vreme: id,
+    },
+    ConditionExpression: 'vreme = :val',
+    ExpressionAttributeValues: {
+      ':val': id,
+    },
+  };
+  return new Promise((resolve, reject) => {
+    db.delete(params, (x,y) => {
+      console.log(x,y);
+      resolve({});
+    });
+  });
+}
+
+ 
+
 async function query({
   id, collection, limit, descending, count, fields,
 }) {
@@ -50,4 +73,5 @@ async function query({
 module.exports = {
   put,
   query,
+  del,
 };

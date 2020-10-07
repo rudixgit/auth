@@ -54,3 +54,24 @@ export const put = async (json, token) => {
     resolve(result);
   });
 };
+export const del = async (json, token) => {
+  const result = await axios.post(`${env.api}/del`, JSON.stringify(json), {
+    headers: {
+      accesstoken: token,
+      'Content-Type': 'application/json',
+    },
+  });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
+};
+export const register = async (json) => {
+  const result = await axios.post(`${env.api}/register`, JSON.stringify(json), {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
+};
