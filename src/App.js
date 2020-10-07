@@ -54,23 +54,28 @@ const App = () => {
 
   useEffect(() => {
     const heartbeat = async () => {
-      const sess = await get('/heartbeat', user.token);
-      if (sess.data.name === 'TokenExpiredError' && user.token) {
-        const cognitoUser = await Auth.currentAuthenticatedUser();
-        const currentSession = await Auth.currentSession();
-        cognitoUser.refreshSession(
-          currentSession.refreshToken,
-          (err, session) => {
-            const userSession = {
-              ...user,
-              token: session.accessToken.jwtToken,
-            };
-            setUser(userSession);
-            localStorage.setItem('user', JSON.stringify(userSession));
-          },
-        );
+      if (user.token) {
+        const sess = await get('/heartbeat', user.token);
+        if (sess.data.name === 'TokenExpiredError') {
+          const cognitoUser = await Auth.currentAuthenticatedUser();
+          const currentSession = await Auth.currentSession();
+          cognitoUser.refreshSession(
+            currentSession.refreshToken,
+            (err, session) => {
+              const userSession = {
+                ...user,
+                token: session.accessToken.jwtToken,
+              };
+              setUser(userSession);
+              localStorage.setItem(
+                'user',
+                JSON.stringify(userSession),
+              );
+            },
+          );
 
-        // localStorage.setItem('user', JSON.stringify(userInfo));
+          // localStorage.setItem('user', JSON.stringify(userInfo));
+        }
       }
     };
     heartbeat();
