@@ -33,7 +33,7 @@ Amplify.configure({
 const App = () => {
   const [user, setUser] = useRecoilState(loggedInUserData);
   const nav = useRecoilValue(navigation);
-  const [init, setInit] = useState(false);
+  const [init, setInit] = useState(0);
   const [dark, setDark] = useLocalStorage('theme', false);
 
   const logout = async () => {
@@ -47,13 +47,15 @@ const App = () => {
       ? JSON.parse(prevStorage)
       : { sub: null };
     setUser(userStorage);
+  }, [setUser]);
+  useEffect(() => {
     setInit(true);
-  }, [setUser, init]);
+  }, [setInit]);
 
   useEffect(() => {
     const heartbeat = async () => {
       const sess = await get('/heartbeat', user.token);
-      if (sess.data.name) {
+      if (sess.data.name === 'TokenExpiredError' && user.token) {
         const cognitoUser = await Auth.currentAuthenticatedUser();
         const currentSession = await Auth.currentSession();
         cognitoUser.refreshSession(
