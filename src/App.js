@@ -53,7 +53,7 @@ const App = () => {
   useEffect(() => {
     const heartbeat = async () => {
       const sess = await get('/heartbeat', user.token);
-      if (sess.data.name === 'TokenExpiredError') {
+      if (sess.data.name) {
         const cognitoUser = await Auth.currentAuthenticatedUser();
         const currentSession = await Auth.currentSession();
         cognitoUser.refreshSession(

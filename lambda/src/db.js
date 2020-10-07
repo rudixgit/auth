@@ -62,9 +62,6 @@ async function query({
   }
   return new Promise((resolve) => {
     db.query(params, (err, data) => {
-      if (data.Count === 1) {
-        resolve(data.Items[0]);
-      }
       resolve(data);
     });
   });
