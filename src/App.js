@@ -37,15 +37,16 @@ const App = () => {
   const [dark, setDark] = useLocalStorage('theme', false);
 
   const logout = async () => {
-    localStorage.setItem('user', JSON.stringify({ sub: null }));
     await Auth.signOut();
+    localStorage.setItem('user', JSON.stringify({}));
+    setUser({ });
   };
 
   useEffect(() => {
     const prevStorage = localStorage.getItem('user');
     const userStorage = prevStorage
       ? JSON.parse(prevStorage)
-      : { sub: null };
+      : { };
     setUser(userStorage);
   }, [setUser]);
 
@@ -76,12 +77,11 @@ const App = () => {
       }
     };
     heartbeat();
-    if (user.sub) {
-      const interval = setInterval(async () => {
-        heartbeat();
-      }, 20000);
-      return () => clearInterval(interval);
-    }
+
+    const interval = setInterval(async () => {
+      heartbeat();
+    }, 20000);
+    return () => clearInterval(interval);
   }, [user, setUser]);
 
   return (
@@ -92,7 +92,7 @@ const App = () => {
           <Menu.Item key="home">
             <Link to="/">Home</Link>
           </Menu.Item>
-          {user.sub === null ? (
+          {!user.username ? (
             <>
               <Menu.Item key="login">
                 <Link to="/app/login">Login</Link>
@@ -110,9 +110,8 @@ const App = () => {
                 <Link to="/app/feed">Feed</Link>
               </Menu.Item>
               <Menu.Item key="logout">
-                <a href="/" onClick={() => Auth.signOut().then(logout())}>
-                  Logout
-                </a>
+
+                <Link to="/" onClick={() => logout()}>Logout</Link>
               </Menu.Item>
             </>
           )}
@@ -123,7 +122,7 @@ const App = () => {
         <Layout>
           <Switch>
             <Route path="/app/login">
-              {user.sub === null ? (
+              {!user.username ? (
                 <>
                   <h1>Login</h1>
                   <Login type="full" />
@@ -142,7 +141,7 @@ const App = () => {
               <Welcome menu="feed" />
             </Route>
             <Route path="/">
-              {user.sub === null ? (
+              {!user.username ? (
                 <Welcome menu="home" />
               ) : (
                 <Home user={user} />
