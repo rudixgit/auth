@@ -33,7 +33,7 @@ Amplify.configure({
 const App = () => {
   const [user, setUser] = useRecoilState(loggedInUserData);
   const nav = useRecoilValue(navigation);
-  const [init, setInit] = useState(0);
+
   const [dark, setDark] = useLocalStorage('theme', false);
 
   const logout = async () => {
@@ -48,9 +48,6 @@ const App = () => {
       : { sub: null };
     setUser(userStorage);
   }, [setUser]);
-  useEffect(() => {
-    setInit(true);
-  }, [setInit]);
 
   useEffect(() => {
     const heartbeat = async () => {
@@ -89,72 +86,72 @@ const App = () => {
 
   return (
     <Router>
-      {init && (
-        <div className={dark ? 'dark' : 'white'}>
-          <Menu selectedKeys={[nav]} mode="horizontal">
-            <Menu.Item key="home">
-              <Link to="/">Home</Link>
-            </Menu.Item>
-            {user.sub === null ? (
-              <>
-                <Menu.Item key="login">
-                  <Link to="/app/login">Login</Link>
-                </Menu.Item>
-                <Menu.Item key="signup">
-                  <Link to="/app/signup">Sign Up</Link>
-                </Menu.Item>
-                <Menu.Item key="forgot">
-                  <Link to="/app/forgot">Forgot Password</Link>
-                </Menu.Item>
-              </>
-            ) : (
-              <>
-                <Menu.Item key="feed">
-                  <Link to="/app/feed">Feed</Link>
-                </Menu.Item>
-                <Menu.Item key="logout">
-                  <a href="/" onClick={() => Auth.signOut().then(logout())}>
-                    Logout
-                  </a>
-                </Menu.Item>
-              </>
-            )}
-          </Menu>
-          <div className="switcher">
-            <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
-          </div>
-          <Layout>
-            <Switch>
-              <Route path="/app/login">
-                {user.sub === null ? (
-                  <>
-                    <h1>Login</h1>
-                    <Login type="full" />
-                  </>
-                ) : (
-                  <Redirect to="/" />
-                )}
-              </Route>
-              <Route path="/app/forgot">
-                <Forgot />
-              </Route>
-              <Route path="/app/signup">
-                <SignUp />
-              </Route>
-              <Route path="/app/feed">
-                <Welcome menu="feed" />
-              </Route>
-              <Route path="/">
-                {user.sub === null ? (
-                  <Welcome menu="home" />
-                ) : (
-                  <Home user={user} />
-                )}
-              </Route>
-            </Switch>
-          </Layout>
+
+      <div className={dark ? 'dark' : 'white'}>
+        <Menu selectedKeys={[nav]} mode="horizontal">
+          <Menu.Item key="home">
+            <Link to="/">Home</Link>
+          </Menu.Item>
+          {user.sub === null ? (
+            <>
+              <Menu.Item key="login">
+                <Link to="/app/login">Login</Link>
+              </Menu.Item>
+              <Menu.Item key="signup">
+                <Link to="/app/signup">Sign Up</Link>
+              </Menu.Item>
+              <Menu.Item key="forgot">
+                <Link to="/app/forgot">Forgot Password</Link>
+              </Menu.Item>
+            </>
+          ) : (
+            <>
+              <Menu.Item key="feed">
+                <Link to="/app/feed">Feed</Link>
+              </Menu.Item>
+              <Menu.Item key="logout">
+                <a href="/" onClick={() => Auth.signOut().then(logout())}>
+                  Logout
+                </a>
+              </Menu.Item>
+            </>
+          )}
+        </Menu>
+        <div className="switcher">
+          <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
         </div>
-      )}
+        <Layout>
+          <Switch>
+            <Route path="/app/login">
+              {user.sub === null ? (
+                <>
+                  <h1>Login</h1>
+                  <Login type="full" />
+                </>
+              ) : (
+                <Redirect to="/" />
+              )}
+            </Route>
+            <Route path="/app/forgot">
+              <Forgot />
+            </Route>
+            <Route path="/app/signup">
+              <SignUp />
+            </Route>
+            <Route path="/app/feed">
+              <Welcome menu="feed" />
+            </Route>
+            <Route path="/">
+              {user.sub === null ? (
+                <Welcome menu="home" />
+              ) : (
+                <Home user={user} />
+              )}
+            </Route>
+          </Switch>
+        </Layout>
+      </div>
+
     </Router>
   );
 };
