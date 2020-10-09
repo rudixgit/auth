@@ -96,12 +96,11 @@ const Home = ({ user, edit }) => {
     <div>
       <h1>{user.username}</h1>
       <Modal
-        title="Basic Modal"
+        title={`Edit ${edited.task}`}
         visible={open}
         // onOk={this.handleOk}
         onCancel={() => {
           setOpen(false);
-          setEdited({});
         }}
       >
 
