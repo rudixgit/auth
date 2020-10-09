@@ -104,8 +104,7 @@ const Home = ({ user, edit }) => {
           setEdited({});
         }}
       >
-        {JSON.stringify(edited)}
-        ====
+
         <Form user={user} edit={edited} />
       </Modal>
       <Form user={user} />
