@@ -19,7 +19,7 @@ const Form = ({ user, edit }) => {
   const onSubmit = async (data) => {
     const newData = {
       ...data,
-      vreme: edit.vreme ? edit.vreme : new Date().getTime(),
+      vreme: edit ? edit.vreme : new Date().getTime(),
       tip: 'test-',
     };
     if (!open) {
