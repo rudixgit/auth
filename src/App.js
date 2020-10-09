@@ -135,7 +135,7 @@ const App = () => {
               <Welcome menu="feed" />
             </Route>
             <Route path="/app/admin">
-              <Admin menu="admin" user={user} />
+              {user.username && (<Admin menu="admin" user={user} />)}
             </Route>
             <Route path="/">
               <Welcome menu="home" />
