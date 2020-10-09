@@ -16,3 +16,23 @@ export const navigation = atom({
   key: 'navigation',
   default: 'home',
 });
+export const items = atom({
+  key: 'items',
+  default: { Items: [] },
+});
+
+export const modal = atom({
+  key: 'modal',
+  default: false,
+});
+
+export const edit = atom({
+  key: 'edit',
+  default: {
+    tip: null,
+    vreme: null,
+    task: null,
+    username: null,
+    collection: null,
+  },
+});

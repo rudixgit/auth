@@ -6,7 +6,7 @@ const translated = {
   AuthError: 'Username or Password cannot be empty',
   CodeMismatchException: 'Invalid code, please try again',
   NotAuthorizedException: 'Username or Password invalid',
-  UsernameExistsException: 'The user does not exist',
+  UsernameExistsException: 'The user exist',
   PasswordNotMatch: 'Passwords do not match',
   InvalidParameterException: 'The password need to be at least 6 symbols',
   Empty: '',

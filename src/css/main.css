@@ -101,3 +101,7 @@ input {
 .dark .ant-table .ant-table-content table tbody tr:hover {
   color: #3498db;
 }
+
+.ant-modal-footer {
+  display: none;
+}

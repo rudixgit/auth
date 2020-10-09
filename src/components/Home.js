@@ -100,6 +100,9 @@ const Home = ({ user }) => {
       <Table
         rowKey="vreme"
         dataSource={fields.Items}
+        onRow={(record, rowIndex) => ({
+          onClick: (event) => { setEdit({}); }, // click row
+        })}
         columns={[
           {
             title: 'Task',
