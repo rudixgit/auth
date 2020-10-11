@@ -20,7 +20,7 @@ const Form = ({ user, edit }) => {
     const newData = {
       ...data,
       vreme: edit ? edit.vreme : new Date().getTime(),
-      tip: 'test-',
+      tip: 'test1-',
     };
     if (!open) {
       setFields(
@@ -34,7 +34,7 @@ const Form = ({ user, edit }) => {
       setFields({ Items: newProjects });
     }
     await put(newData, user.token);
-    await put({ ...newData, tip: 'test-all' }, user.token);
+    await put({ ...newData, tip: 'test1-all' }, user.token);
     setValue('task', '');
 
     setOpen(false);
@@ -78,7 +78,7 @@ const Admin = ({ user }) => {
     async function fetchData() {
       const response = await post(
         {
-          collection: 'test-',
+          collection: 'test1-',
           descending: false,
         },
         user.token,
@@ -140,7 +140,7 @@ const Admin = ({ user }) => {
             key: 'date',
             render: (vreme) => (
               <Button
-                onClick={() => deleteMe({ collection: 'test-', id: vreme })}
+                onClick={() => deleteMe({ collection: 'test1-', id: vreme })}
               >
                 Delete
               </Button>

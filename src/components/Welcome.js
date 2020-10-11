@@ -15,7 +15,7 @@ const Welcome = ({ menu }) => {
     async function fetchData() {
       const response = await postPublic(
         {
-          collection: 'test-all',
+          collection: 'test1-all',
           descending: false,
         },
       );
