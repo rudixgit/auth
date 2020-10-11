@@ -47,7 +47,7 @@ const Forgot = () => {
     try {
       await Auth.forgotPassword(state.username);
 
-      setState({ ...state, stage: 1, error: { name: 'Empty' } });
+      setState({ ...state, stage: 1 });
     } catch (err) {
       setState({ ...state, error: err });
     }

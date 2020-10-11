@@ -15,7 +15,7 @@ import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Forgot from './components/Login/Forgot';
 import Welcome from './components/Welcome';
-import Admin from './components/Admin';
+import Home from './components/Home';
 import { loggedInUserData, navigation } from './utils/state';
 import { get } from './utils/api';
 import useLocalStorage from './utils/hooks';
@@ -39,12 +39,14 @@ const App = () => {
   const logout = async () => {
     await Auth.signOut();
     localStorage.setItem('user', JSON.stringify({}));
-    setUser({});
+    setUser({ });
   };
 
   useEffect(() => {
     const prevStorage = localStorage.getItem('user');
-    const userStorage = prevStorage ? JSON.parse(prevStorage) : {};
+    const userStorage = prevStorage
+      ? JSON.parse(prevStorage)
+      : { };
     setUser(userStorage);
   }, [setUser]);
 
@@ -63,9 +65,13 @@ const App = () => {
                 token: session.accessToken.jwtToken,
               };
               setUser(userSession);
-              localStorage.setItem('user', JSON.stringify(userSession));
+              localStorage.setItem(
+                'user',
+                JSON.stringify(userSession),
+              );
             },
           );
+
           // localStorage.setItem('user', JSON.stringify(userInfo));
         }
       }
@@ -80,6 +86,7 @@ const App = () => {
 
   return (
     <Router>
+
       <div className={dark ? 'dark' : 'white'}>
         <Menu selectedKeys={[nav]} mode="horizontal">
           <Menu.Item key="home">
@@ -99,13 +106,12 @@ const App = () => {
             </>
           ) : (
             <>
-              <Menu.Item key="admin">
-                <Link to="/app/admin">Admin</Link>
+              <Menu.Item key="feed">
+                <Link to="/app/feed">Feed</Link>
               </Menu.Item>
               <Menu.Item key="logout">
-                <Link to="/" onClick={() => logout()}>
-                  Logout
-                </Link>
+
+                <Link to="/" onClick={() => logout()}>Logout</Link>
               </Menu.Item>
             </>
           )}
@@ -134,15 +140,17 @@ const App = () => {
             <Route path="/app/feed">
               <Welcome menu="feed" />
             </Route>
-            <Route path="/app/admin">
-              {user.username && (<Admin menu="admin" user={user} />)}
-            </Route>
             <Route path="/">
-              <Welcome menu="home" />
+              {!user.username ? (
+                <Welcome menu="home" />
+              ) : (
+                <Home user={user} />
+              )}
             </Route>
           </Switch>
         </Layout>
       </div>
+
     </Router>
   );
 };

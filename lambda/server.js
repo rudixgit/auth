@@ -72,7 +72,6 @@ app.get('/heartbeat', authenticatedRoute, function (req, res) {
 });
 app.post('/db', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
-  console.log(modd);
   const result = await query(modd);
   res.json(result);
 });
