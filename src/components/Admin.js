@@ -157,5 +157,5 @@ const Home = ({ user, edit }) => {
     </div>
   );
 };
-
+// ver 1
 export default Home;
