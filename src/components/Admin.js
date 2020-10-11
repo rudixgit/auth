@@ -50,13 +50,11 @@ const Form = ({ user, edit }) => {
               error={!!errors.task}
               label={errors.task ? 'task is required' : 'task'}
               variant="outlined"
-
               style={{ width: '100%' }}
             />
           )}
           name="task"
           control={control}
-
           rules={{ required: true }}
         />
       </div>
@@ -64,6 +62,12 @@ const Form = ({ user, edit }) => {
       <Button type="primary" htmlType="submit">
         Submit
       </Button>
+      {' '}
+      {edit && (
+        <Button onClick={() => setOpen(false)}>
+          Cancel
+        </Button>
+      )}
     </form>
   );
 };

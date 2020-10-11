@@ -13,6 +13,7 @@ export interface FormItemInputProps {
     wrapperCol?: ColProps;
     help?: React.ReactNode;
     extra?: React.ReactNode;
+    status?: ValidateStatus;
 }
 declare const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps>;
 export default FormItemInput;
