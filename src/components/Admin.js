@@ -71,7 +71,7 @@ const Form = ({ user, edit }) => {
     </form>
   );
 };
-const Admin = ({ user }) => {
+const Home = ({ user, edit }) => {
   const [nav, setNav] = useRecoilState(navigation);
   const [fields, setFields] = useRecoilState(items);
   const [open, setOpen] = useRecoilState(modal);
@@ -157,5 +157,5 @@ const Admin = ({ user }) => {
     </div>
   );
 };
-// ver 1
-export default Admin;
+
+export default Home;
