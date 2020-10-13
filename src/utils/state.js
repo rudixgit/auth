@@ -19,7 +19,7 @@ export const navigation = atom({
 
 export const items = atom({
   key: 'items',
-  default: { Items: [] },
+  default: { rows: [] },
 });
 export const modal = atom({
   key: 'modal',
