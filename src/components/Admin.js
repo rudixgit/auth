@@ -17,6 +17,7 @@ const Form = ({ user, edit }) => {
     setValue('task', edit ? edit.task : '');
   }, [edit, open, setValue]);
   const onSubmit = async (data) => {
+    console.log('twice');
     const newData = {
       ...data,
       vreme: edit ? edit.vreme : new Date().getTime(),
@@ -34,7 +35,7 @@ const Form = ({ user, edit }) => {
       setFields({ Items: newProjects });
     }
     await put(newData, user.token);
-    await put({ ...newData, tip: 'test1-all' }, user.token);
+    // await put({ ...newData, tip: 'test1-all' }, user.token);
     setValue('task', '');
 
     setOpen(false);
@@ -42,22 +43,21 @@ const Form = ({ user, edit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="inputwrapper">
-        <Controller
-          as={(
-            <TextField
-              id="outlined-basic"
-              error={!!errors.task}
-              label={errors.task ? 'task is required' : 'task'}
-              variant="outlined"
-              style={{ width: '100%' }}
-            />
-          )}
-          name="task"
-          control={control}
-          rules={{ required: true }}
-        />
-      </div>
+      <Controller
+        as={(
+          <TextField
+            id="outlined-basic"
+            error={!!errors.task}
+            label={errors.task ? 'task is required' : 'task'}
+            variant="outlined"
+            style={{ width: '100%' }}
+          />
+        )}
+        defaultValue=""
+        name="task"
+        control={control}
+        rules={{ required: true }}
+      />
       <Button type="primary" htmlType="submit">
         Submit
       </Button>
