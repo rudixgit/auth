@@ -17,14 +17,18 @@ const Form = ({ user, edit }) => {
     setValue('task', edit ? edit.task : '');
   }, [edit, open, setValue]);
   const onSubmit = async (data) => {
+    const rev = edit ? { _rev: edit._rev } : {};
+
     const newData = {
       id: new Date().getTime.toString(),
       value: {
         ...data,
-        _id: edit ? edit.vreme : new Date().getTime().toString(),
+        _id: edit ? edit._id : new Date().getTime().toString(),
         type: 'feed',
+        ...rev,
       },
     };
+
     if (!open) {
       setFields(
         fields.rows
@@ -32,10 +36,11 @@ const Form = ({ user, edit }) => {
           : { rows: [newData] },
       );
     } else {
-      const newProjects = fields.rows.map((p) => (p.vreme === edit.vreme ? newData : p));
+      const newProjects = fields.rows.map((p) => (p.value._id === edit._id ? newData : p));
 
       setFields({ rows: newProjects });
     }
+    console.log(newData.value);
     await put(newData.value, user.token);
     // await put({ ...newData, tip: 'test1-all' }, user.token);
     setValue('task', '');
@@ -47,15 +52,17 @@ const Form = ({ user, edit }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller
         as={(
-          <TextField
-            id="outlined-basic"
-            error={!!errors.task}
-            label={errors.task ? 'task is required' : 'task'}
-            variant="outlined"
-            style={{ width: '100%' }}
-          />
+          <div>
+            <TextField
+              id="outlined-basic"
+              error={!!errors.task}
+              label={errors.task ? 'task is required' : 'task'}
+              variant="outlined"
+              style={{ width: '100%' }}
+            />
+          </div>
         )}
-        defaultValue=""
+        defaultValue={edit && edit.task}
         name="task"
         control={control}
         rules={{ required: true }}

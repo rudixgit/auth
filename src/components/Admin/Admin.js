@@ -4,7 +4,7 @@ import { Button, Table, Modal } from 'antd';
 import TimeAgo from 'timeago-react';
 import { useRecoilState } from 'recoil';
 import Form from './Form';
-import { del, get } from '../../utils/api';
+import { get, del } from '../../utils/api';
 import { items, navigation, modal } from '../../utils/state';
 
 const Admin = ({ user }) => {
@@ -25,8 +25,12 @@ const Admin = ({ user }) => {
     fetchData();
   }, [user, setFields]);
   const deleteMe = async (obj) => {
-    await del(obj, user.token);
-    setFields({ Items: fields.Items.filter((e) => e.vreme !== obj.id) });
+    setFields({
+      rows: fields.rows.filter(
+        (e) => e.id !== obj._id,
+      ),
+    });
+    await del(`/test/${obj._id}`, user.token);
   };
   return (
     <div>
@@ -45,7 +49,7 @@ const Admin = ({ user }) => {
 
       <Table
         onRow={(r) => ({
-          onClick: () => setEdited(r),
+          onClick: () => setEdited(r.value),
         })}
         rowKey="id"
         dataSource={fields.rows}
@@ -54,7 +58,7 @@ const Admin = ({ user }) => {
             title: 'Task',
             dataIndex: 'value',
             key: 'task',
-            render: (value) => (value.task),
+            render: (value) => value.task,
           },
           {
             title: 'date',
@@ -70,20 +74,18 @@ const Admin = ({ user }) => {
           },
           {
             title: 'manage',
-            dataIndex: 'vreme',
+            dataIndex: 'value',
             key: 'date',
             render: () => <Button onClick={() => setOpen(true)}>Edit</Button>,
           },
           {
             title: 'manage',
-            dataIndex: 'vreme',
-            key: 'date',
-            render: (vreme) => (
-              <Button
-                onClick={() => deleteMe({ collection: 'test1-', id: vreme })}
-              >
-                Delete
-              </Button>
+            dataIndex: 'value',
+            key: 'delete',
+            render: (x) => (
+              <>
+                <Button onClick={() => deleteMe(x)}>Delete</Button>
+              </>
             ),
           },
         ]}
