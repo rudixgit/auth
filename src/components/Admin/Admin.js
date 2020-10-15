@@ -30,7 +30,9 @@ const Admin = ({ user }) => {
   };
   return (
     <div>
-      <h1>{user.username}</h1>
+      <h1>
+        {`Welcome, ${user.username}`}
+      </h1>
       <Modal
         title={`Edit ${edited.task}`}
         visible={open}
