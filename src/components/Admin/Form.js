@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
@@ -17,18 +18,17 @@ const Form = ({ user, edit }) => {
     setValue('task', edit ? edit.task : '');
   }, [edit, open, setValue]);
   const onSubmit = async (data) => {
+    const id = edit ? edit._id : new Date().getTime().toString();
     const rev = edit ? { _rev: edit._rev } : {};
-
     const newData = {
-      id: new Date().getTime.toString(),
+      id,
       value: {
         ...data,
-        _id: edit ? edit._id : new Date().getTime().toString(),
+        _id: id,
         type: 'feed',
         ...rev,
       },
     };
-
     if (!open) {
       setFields(
         fields.rows
@@ -36,11 +36,10 @@ const Form = ({ user, edit }) => {
           : { rows: [newData] },
       );
     } else {
-      const newProjects = fields.rows.map((p) => (p.value._id === edit._id ? newData : p));
+      const newProjects = fields.rows.map((p) => (p.id === edit._id ? newData : p));
 
       setFields({ rows: newProjects });
     }
-    console.log(newData.value);
     await put(newData.value, user.token);
     // await put({ ...newData, tip: 'test1-all' }, user.token);
     setValue('task', '');
@@ -52,17 +51,15 @@ const Form = ({ user, edit }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller
         as={(
-          <div>
-            <TextField
-              id="outlined-basic"
-              error={!!errors.task}
-              label={errors.task ? 'task is required' : 'task'}
-              variant="outlined"
-              style={{ width: '100%' }}
-            />
-          </div>
+          <TextField
+            id="outlined-basic"
+            error={!!errors.task}
+            label={errors.task ? 'task is required' : 'task'}
+            variant="outlined"
+            style={{ width: '100%' }}
+          />
         )}
-        defaultValue={edit && edit.task}
+        defaultValue=""
         name="task"
         control={control}
         rules={{ required: true }}

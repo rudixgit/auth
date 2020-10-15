@@ -4,7 +4,7 @@ import { Button, Table, Modal } from 'antd';
 import TimeAgo from 'timeago-react';
 import { useRecoilState } from 'recoil';
 import Form from './Form';
-import { get, del } from '../../utils/api';
+import { del, get } from '../../utils/api';
 import { items, navigation, modal } from '../../utils/state';
 
 const Admin = ({ user }) => {
@@ -24,13 +24,9 @@ const Admin = ({ user }) => {
     }
     fetchData();
   }, [user, setFields]);
-  const deleteMe = async (obj) => {
-    setFields({
-      rows: fields.rows.filter(
-        (e) => e.id !== obj._id,
-      ),
-    });
-    await del(`/test/${obj._id}`, user.token);
+  const deleteMe = async (id) => {
+    await del(id, user.token);
+    setFields({ rows: fields.rows.filter((e) => id !== e.id) });
   };
   return (
     <div>
@@ -58,7 +54,7 @@ const Admin = ({ user }) => {
             title: 'Task',
             dataIndex: 'value',
             key: 'task',
-            render: (value) => value.task,
+            render: (value) => (value.task),
           },
           {
             title: 'date',
@@ -74,18 +70,20 @@ const Admin = ({ user }) => {
           },
           {
             title: 'manage',
-            dataIndex: 'value',
+            dataIndex: 'vreme',
             key: 'date',
             render: () => <Button onClick={() => setOpen(true)}>Edit</Button>,
           },
           {
             title: 'manage',
-            dataIndex: 'value',
-            key: 'delete',
-            render: (x) => (
-              <>
-                <Button onClick={() => deleteMe(x)}>Delete</Button>
-              </>
+            dataIndex: 'id',
+            key: 'date',
+            render: (id) => (
+              <Button
+                onClick={() => deleteMe(id)}
+              >
+                Delete
+              </Button>
             ),
           },
         ]}
