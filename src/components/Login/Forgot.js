@@ -61,7 +61,7 @@ const Forgot = () => {
         await Auth.forgotPasswordSubmit(
           state.username,
           state.validation,
-          state.password,
+          state.password
         );
         setState({ ...state, stage: 3, error: { name: 'Empty' } });
       } else {
@@ -74,7 +74,7 @@ const Forgot = () => {
       setState({ ...state, error: err });
     }
   };
-  const handleUpdate = (event) => {
+  const handleUpdate = event => {
     setState({
       ...state,
       [event.target.name]: event.target.value,
@@ -164,8 +164,7 @@ const Forgot = () => {
       {state.stage === 3 && (
         <>
           <>
-            Password changed ,
-            <a href="/app/login">Login</a>
+            Password changed ,<a href="/app/login">Login</a>
           </>
         </>
       )}
