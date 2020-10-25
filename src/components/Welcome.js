@@ -23,7 +23,7 @@ const Welcome = ({ menu }) => {
 
   return (
     <div>
-      <h2>Public Feed</h2>
+      <div className="jumbotron"> </div>
       {fields.rows.map((item) => (
         <div key={item.id}>
 

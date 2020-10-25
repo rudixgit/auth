@@ -81,6 +81,9 @@ const App = () => {
   return (
     <Router>
       <div className={dark ? 'dark' : 'white'}>
+        <div className="logo">
+          <img src="/logo.png" alt="/logo.png" />
+        </div>
         <Menu selectedKeys={[nav]} mode="horizontal">
           <Menu.Item key="home">
             <Link to="/">Home</Link>

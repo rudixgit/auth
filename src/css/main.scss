@@ -24,8 +24,8 @@ input {
 }
 
 .ant-menu {
-  text-align: center;
   border: none;
+  margin-left: 91px;
 
   .ant-menu-item-selected,
   .ant-menu-item-active {
@@ -42,10 +42,14 @@ input {
 
   background-color: #2d3436;
   color: #ecf0f1;
-  h1,h2,h3 {
+  h1,
+  h2,
+  h3 {
     color: #ecf0f1;
   }
-
+  .logo {
+    background-color: #2d3436;
+  }
   .MuiFormControl-root {
     border-color: yellowgreen;
     label {
@@ -82,21 +86,20 @@ input {
           tr {
             th {
               background-color: #2d3436;
-             color: white;
-             font-size: 120%;
-             font-weight: bolder;
+              color: white;
+              font-size: 120%;
+              font-weight: bolder;
             }
           }
         }
         tbody {
-         tr{
-           td{
-           border:none;
-           }
-         }
-          tr:hover{
+          tr {
+            td {
+              border: none;
+            }
+          }
+          tr:hover {
             color: #3498db;
-            
           }
         }
       }
@@ -105,4 +108,25 @@ input {
 }
 .ant-modal-footer {
   display: none;
+}
+.jumbotron {
+  background-image: url('/back.jpg');
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.logo {
+  height: 47px;
+  overflow: hidden;
+  position: absolute;
+  background-color: white;
+  img {
+    max-height: 47px;
+  }
 }

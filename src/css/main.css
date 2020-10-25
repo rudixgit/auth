@@ -27,8 +27,8 @@ input {
 }
 
 .ant-menu {
-  text-align: center;
   border: none;
+  margin-left: 91px;
 }
 
 .ant-menu .ant-menu-item-selected,
@@ -47,8 +47,14 @@ input {
   color: #ecf0f1;
 }
 
-.dark h1, .dark h2, .dark h3 {
+.dark h1,
+.dark h2,
+.dark h3 {
   color: #ecf0f1;
+}
+
+.dark .logo {
+  background-color: #2d3436;
 }
 
 .dark .MuiFormControl-root {
@@ -104,4 +110,28 @@ input {
 
 .ant-modal-footer {
   display: none;
+}
+
+.jumbotron {
+  background-image: url("/back.jpg");
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo {
+  height: 47px;
+  overflow: hidden;
+  position: absolute;
+  background-color: white;
+}
+
+.logo img {
+  max-height: 47px;
 }
