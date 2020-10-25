@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { Menu, Switch as Switch1 } from 'antd';
+import { Menu, Switch as Switch1, Button } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Amplify, Auth } from 'aws-amplify';
 import Layout from './components/layout';
@@ -35,7 +35,8 @@ const App = () => {
   const nav = useRecoilValue(navigation);
 
   const [dark, setDark] = useLocalStorage('theme', false);
-
+  const [lang, setLang] = useLocalStorage('lang', false);
+  const l = lang ? 'en' : 'bg';
   const logout = async () => {
     await Auth.signOut();
     localStorage.setItem('user', JSON.stringify({}));
@@ -78,6 +79,21 @@ const App = () => {
     return () => clearInterval(interval);
   }, [user, setUser]);
 
+  const MenuItems = {
+    bg: {
+      Home: 'Начало',
+      Login: 'Вход',
+      SignUp: 'Регистрация',
+      Forgot: 'Забравена Парола',
+    },
+    en: {
+      Home: 'Home',
+      Login: 'Login',
+      SignUp: 'Sign Up',
+      Forgot: 'Forgot Password',
+    },
+  };
+
   return (
     <Router>
       <div className={dark ? 'dark' : 'white'}>
@@ -86,18 +102,18 @@ const App = () => {
         </div>
         <Menu selectedKeys={[nav]} mode="horizontal">
           <Menu.Item key="home">
-            <Link to="/">Home</Link>
+            <Link to="/">{MenuItems[l].Home}</Link>
           </Menu.Item>
           {!user.username ? (
             <>
               <Menu.Item key="login">
-                <Link to="/app/login">Login</Link>
+                <Link to="/app/login">{MenuItems[l].Login}</Link>
               </Menu.Item>
               <Menu.Item key="signup">
-                <Link to="/app/signup">Sign Up</Link>
+                <Link to="/app/signup">{MenuItems[l].SignUp}</Link>
               </Menu.Item>
               <Menu.Item key="forgot">
-                <Link to="/app/forgot">Forgot Password</Link>
+                <Link to="/app/forgot">{MenuItems[l].Forgot}</Link>
               </Menu.Item>
             </>
           ) : (
@@ -114,7 +130,14 @@ const App = () => {
           )}
         </Menu>
         <div className="switcher">
-          <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
+          <Switch1
+            defaultChecked={dark}
+            onChange={() => setDark(!dark)}
+            style={{ marginRight: 5 }}
+          />
+          <Button type="primary" shape="circle" onClick={() => setLang(!lang)}>
+            {lang ? 'BG' : 'EN'}
+          </Button>
         </div>
         <Layout>
           <Switch>
@@ -141,7 +164,7 @@ const App = () => {
               {user.username && <Admin menu="admin" user={user} />}
             </Route>
             <Route path="/">
-              <Welcome menu="home" />
+              <Welcome menu="home" lang={l} />
             </Route>
           </Switch>
         </Layout>

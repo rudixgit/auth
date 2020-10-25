@@ -2,7 +2,6 @@
 body {
   font-family: 'Comfortaa';
   font-weight: 600;
-  background-color: #ecf0f1;
 }
 
 input {
@@ -57,6 +56,10 @@ input {
   background-color: #2d3436;
 }
 
+.dark .jumbotron {
+  display: none;
+}
+
 .dark .MuiFormControl-root {
   border-color: yellowgreen;
 }
@@ -108,12 +111,16 @@ input {
   color: #3498db;
 }
 
+.white .contentMain {
+  margin-top: 100vh;
+}
+
 .ant-modal-footer {
   display: none;
 }
 
 .jumbotron {
-  background-image: url("/back.jpg");
+  background-image: url("/back.png");
   width: 100%;
   top: 0;
   left: 0;

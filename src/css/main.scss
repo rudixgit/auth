@@ -3,7 +3,7 @@
 body {
   font-family: 'Comfortaa';
   font-weight: 600;
-  background-color: #ecf0f1;
+  //background-color: #ecf0f1;
 }
 input {
   font-weight: bolder;
@@ -50,6 +50,7 @@ input {
   .logo {
     background-color: #2d3436;
   }
+  .jumbotron {display: none;}
   .MuiFormControl-root {
     border-color: yellowgreen;
     label {
@@ -106,11 +107,16 @@ input {
     }
   }
 }
+.white {
+  .contentMain {
+    margin-top: 100vh;
+  }
+}
 .ant-modal-footer {
   display: none;
 }
 .jumbotron {
-  background-image: url('/back.jpg');
+  background-image: url('/back.png');
   width: 100%;
   top: 0;
   left: 0;
