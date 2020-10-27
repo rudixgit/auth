@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
@@ -23,7 +24,12 @@ const Welcome = ({ menu, lang }) => {
 
   return (
     <>
-      <div className="jumbotron" />
+      <div className="jumbotron">
+        <h1>Looking for Job?</h1>
+        <Button>Find Jobs</Button>
+        <h1>Hiring?</h1>
+        <Button>Post a Job</Button>
+      </div>
       <div className="contentMain">
         {lang}
         {fields.rows.map((item) => (

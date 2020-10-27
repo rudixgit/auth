@@ -85,12 +85,16 @@ const App = () => {
       Login: 'Вход',
       SignUp: 'Регистрация',
       Forgot: 'Забравена Парола',
+      Admin: 'Админ',
+      Logout: 'Изход',
     },
     en: {
       Home: 'Home',
       Login: 'Login',
       SignUp: 'Sign Up',
       Forgot: 'Forgot Password',
+      Admin: 'Admin',
+      Logout: 'Logout',
     },
   };
 
@@ -119,11 +123,11 @@ const App = () => {
           ) : (
             <>
               <Menu.Item key="admin">
-                <Link to="/app/admin">Admin</Link>
+                <Link to="/app/admin">{MenuItems[l].Admin}</Link>
               </Menu.Item>
               <Menu.Item key="logout">
                 <Link to="/" onClick={() => logout()}>
-                  Logout
+                  {MenuItems[l].Logout}
                 </Link>
               </Menu.Item>
             </>
@@ -144,7 +148,7 @@ const App = () => {
             <Route path="/app/login">
               {!user.username ? (
                 <>
-                  <h1>Login</h1>
+                  <h1>{MenuItems[l].Login}</h1>
                   <Login type="full" />
                 </>
               ) : (

@@ -130,6 +130,9 @@ input {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
+  padding-top: 40vh;
+  padding-left: 10%;
 }
 
 .logo {
