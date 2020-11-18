@@ -2,25 +2,28 @@ import React, { useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { useRecoilState } from 'recoil';
-
+import {
+  useParams,
+} from 'react-router-dom';
 import { navigation } from '../utils/state';
 import Card from './Admin/Card';
 
-const Welcome = ({ user }) => {
+const Profile = ({ user }) => {
   // const [fields, setFields] = useState({ Items: [] });
+  const { id } = useParams();
 
   const [nav, setNav] = useRecoilState(navigation);
 
   useEffect(() => {
-    setNav('home');
+    setNav('dddd');
   }, [setNav, nav]);
 
   const { data, loading, error } = useQuery(gql`
     {
-      Post(where: {}, order_by: { id: desc }, limit: 10) {
-        id
-        created_at
+      Post(where: { user_id: { _eq: "${id}" } }, order_by: { id: desc },limit:100) {
         caption
+        created_at
+        id
         user_id
       }
     }
@@ -30,9 +33,12 @@ const Welcome = ({ user }) => {
 
   return (
     <>
-      {data.Post.map((item) => (<Card item={item} />))}
+      <h1>{id}</h1>
+      {data.Post[0] ? data.Post.map((item) => (
+        <Card key={item.id} item={item} user={user} />
+      )) : (<>Потребителя не съществува</>)}
     </>
   );
 };
 
-export default Welcome;
+export default Profile;

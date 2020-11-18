@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +18,7 @@ import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Forgot from './components/Login/Forgot';
 import Welcome from './components/Welcome';
+import Profile from './components/Profile';
 import Admin from './components/Admin/Admin';
 import { loggedInUserData, navigation } from './utils/state';
 import { heartbeat } from './utils/api';
@@ -38,6 +39,7 @@ Amplify.configure({
 
 const App = () => {
   const [user, setUser] = useRecoilState(loggedInUserData);
+  const [loaded, setLoaded] = useState(false);
   const nav = useRecoilValue(navigation);
 
   const [dark, setDark] = useLocalStorage('theme', false);
@@ -55,6 +57,7 @@ const App = () => {
     const prevStorage = localStorage.getItem('user');
     const userStorage = prevStorage ? JSON.parse(prevStorage) : {};
     setUser(userStorage);
+    setLoaded(true);
   }, [setUser]);
 
   useEffect(() => {
@@ -141,7 +144,13 @@ const App = () => {
               <Route path="/app/signup">
                 <SignUp />
               </Route>
-
+              <Route path="/:id">
+                {user.username ? (
+                  <Profile user={user} />
+                ) : (
+                  <Profile />
+                )}
+              </Route>
               <Route path="/">
                 {user.username ? (
                   <Admin user={user} />
