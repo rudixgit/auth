@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
-import { navigation, items } from '../utils/state';
+import { navigation } from '../utils/state';
 import Card from './Admin/Card';
 
 const Welcome = ({ user }) => {
   // const [fields, setFields] = useState({ Items: [] });
-  const fields = useRecoilValue(items);
+
   const [nav, setNav] = useRecoilState(navigation);
 
   useEffect(() => {

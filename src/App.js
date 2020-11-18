@@ -92,7 +92,7 @@ const App = () => {
       <Router>
         <div className={dark ? 'dark' : 'white'}>
           <div className="logo">
-            <img src="/logo.png" />
+            <img src="/logo.png" alt="" />
           </div>
           <Menu selectedKeys={[nav]} mode="horizontal">
             <Menu.Item key="home">
