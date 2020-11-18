@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -39,7 +39,7 @@ Amplify.configure({
 
 const App = () => {
   const [user, setUser] = useRecoilState(loggedInUserData);
-  const [loaded, setLoaded] = useState(false);
+
   const nav = useRecoilValue(navigation);
 
   const [dark, setDark] = useLocalStorage('theme', false);
@@ -57,7 +57,6 @@ const App = () => {
     const prevStorage = localStorage.getItem('user');
     const userStorage = prevStorage ? JSON.parse(prevStorage) : {};
     setUser(userStorage);
-    setLoaded(true);
   }, [setUser]);
 
   useEffect(() => {

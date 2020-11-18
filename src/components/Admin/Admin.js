@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 
