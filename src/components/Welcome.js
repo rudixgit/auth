@@ -1,46 +1,36 @@
-import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { useRecoilState } from 'recoil';
-import { get } from '../utils/api';
-import { navigation } from '../utils/state';
+import { navigation, items } from '../utils/state';
+import Card from './Admin/Card';
 
-const Welcome = ({ menu, lang }) => {
+const Welcome = ({ user }) => {
+  // const [fields, setFields] = useState({ Items: [] });
+  const fields = useRecoilValue(items);
   const [nav, setNav] = useRecoilState(navigation);
-  const [fields, setFields] = useState({ rows: [] });
-  useEffect(() => {
-    setNav(menu);
-  }, [setNav, nav, menu]);
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await get(
-        '/test/_design/api/_view/feedAll?reduce=false&descending=true',
-      );
-      setFields(data.data);
+    setNav('home');
+  }, [setNav, nav]);
+
+  const { data, loading, error } = useQuery(gql`
+    {
+      Post(where: {}, order_by: { created_at: desc }, limit: 10) {
+        id
+        created_at
+        caption
+        user_id
+      }
     }
-    fetchData();
-  }, []);
+  `);
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
 
   return (
     <>
-      <div className="jumbotron">
-        <h1>Looking for Job?</h1>
-        <Button>Find Jobs</Button>
-        <h1>Hiring?</h1>
-        <Button>Post a Job</Button>
-      </div>
-      <div className="contentMain">
-        {lang}
-        {fields.rows.map((item) => (
-          <div key={item.id}>
-            <small>
-              {`${item.value.username ? item.value.username : 'admin'} added: `}
-            </small>
-            {item.value.task}
-          </div>
-        ))}
-      </div>
+      {data.Post.map((item) => (<Card item={item} />))}
     </>
   );
 };

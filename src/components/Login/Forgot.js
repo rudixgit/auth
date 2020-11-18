@@ -61,7 +61,7 @@ const Forgot = () => {
         await Auth.forgotPasswordSubmit(
           state.username,
           state.validation,
-          state.password
+          state.password,
         );
         setState({ ...state, stage: 3, error: { name: 'Empty' } });
       } else {
@@ -74,7 +74,7 @@ const Forgot = () => {
       setState({ ...state, error: err });
     }
   };
-  const handleUpdate = event => {
+  const handleUpdate = (event) => {
     setState({
       ...state,
       [event.target.name]: event.target.value,
@@ -82,7 +82,7 @@ const Forgot = () => {
   };
   return (
     <div>
-      <h1>Forgot Password</h1>
+      <h1>Забравена Парола</h1>
       {state.error && <Error errorMessage={state.error} />}
 
       {state.stage === 0 && (
@@ -102,17 +102,17 @@ const Forgot = () => {
             onClick={login}
             onKeyDown={login}
           >
-            <span style={styles.buttonText}>Next</span>
+            <span style={styles.buttonText}>Напред</span>
           </div>
         </div>
       )}
 
       {state.stage === 1 && (
         <div>
-          <div>Check your email for confirmation code</div>
+          <div>Провери E-mail-a си за потвърждаващ код</div>
           <Input
             onChange={handleUpdate}
-            placeholder="confirmation code"
+            placeholder="потвърждаващ код"
             name="validation"
             value={state.validation}
             style={styles.Input}
@@ -134,7 +134,7 @@ const Forgot = () => {
           <Input
             type="password"
             onChange={handleUpdate}
-            placeholder="new password"
+            placeholder="нова парола"
             name="password"
             value={state.password}
             style={styles.Input}
@@ -143,7 +143,7 @@ const Forgot = () => {
           <Input
             type="password"
             onChange={handleUpdate}
-            placeholder="confirm password"
+            placeholder="потвърди паролата"
             name="confirmPassword"
             value={state.confirmPassword}
             style={styles.Input}
@@ -157,14 +157,15 @@ const Forgot = () => {
             onClick={changePassword}
             onKeyDown={changePassword}
           >
-            <span style={styles.buttonText}>Change password</span>
+            <span style={styles.buttonText}>Смени паролата</span>
           </div>
         </div>
       )}
       {state.stage === 3 && (
         <>
           <>
-            Password changed ,<a href="/app/login">Login</a>
+            паролата сменена,
+            <a href="/app/login">Вход</a>
           </>
         </>
       )}

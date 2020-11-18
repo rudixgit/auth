@@ -2,12 +2,13 @@ import axios from 'axios';
 
 const env1 = {
   development: {
-    api: 'https://db.rudixlab.com',
+    api: 'https://crlzp2fwh8.execute-api.eu-west-1.amazonaws.com/dev',
   },
   production: {
-    api: 'https://db.rudixlab.com',
+    api: 'https://crlzp2fwh8.execute-api.eu-west-1.amazonaws.com/dev',
   },
 };
+
 export const env = env1[process.env.NODE_ENV];
 export const get = async (id) => {
   const result = await axios.get(`${env.api}${id}`);
@@ -27,8 +28,8 @@ export const heartbeat = async (token) => {
     resolve(result);
   });
 };
-export const post = async (json, token) => {
-  const result = await axios.post(`${env.api}/db`, JSON.stringify(json), {
+export const post = async (table, json, token) => {
+  const result = await axios.post(`${env.api}/db/${table}`, JSON.stringify(json), {
     headers: {
       accesstoken: token,
       'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ export const postPublic = async (json) => {
   });
 };
 export const put = async (json, token) => {
-  const result = await axios.post(`${env.api}/db/test`, JSON.stringify(json), {
+  const result = await axios.post(`${env.api}/insert`, JSON.stringify(json), {
     headers: {
       accesstoken: token,
       'Content-Type': 'application/json',
@@ -60,8 +61,8 @@ export const put = async (json, token) => {
     resolve(result);
   });
 };
-export const del = async (id, token) => {
-  const result = await axios.get(`${env.api}/del/test/${id}`, {
+export const del = async (json, token) => {
+  const result = await axios.post(`${env.api}/del`, JSON.stringify(json), {
     headers: {
       accesstoken: token,
       'Content-Type': 'application/json',

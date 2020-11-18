@@ -3,7 +3,7 @@
 body {
   font-family: 'Comfortaa';
   font-weight: 600;
-  //background-color: #ecf0f1;
+  background-color: #ecf0f1;
 }
 input {
   font-weight: bolder;
@@ -15,18 +15,27 @@ input {
 }
 .switcher {
   position: absolute;
-  top: 55px;
+  top: 13px;
   right: 10px;
   z-index: 2;
 }
 .MuiFormControl-root {
   margin-bottom: 10px;
 }
+.logo {
+  max-height: 47px;
+ overflow: hidden;
+ text-align: center;
+  background-color: #fff;
+ img {
+     max-height: 47px;
+ }
+}
 
 .ant-menu {
+  text-align: center;
   border: none;
-  margin-left: 91px;
-
+  margin-bottom: 5px;
   .ant-menu-item-selected,
   .ant-menu-item-active {
     border-color: rebeccapurple !important;
@@ -36,7 +45,7 @@ input {
     }
   }
 }
-
+ 
 .dark {
   min-height: 100vh;
 
@@ -50,7 +59,20 @@ input {
   .logo {
     background-color: #2d3436;
   }
-  .jumbotron {display: none;}
+  .ant-card {
+    background-color: #2d3436;
+    border: none;
+    .ant-card-body {
+      .ant-card-meta {
+        .ant-card-meta-detail {
+          .ant-card-meta-title,.ant-card-meta-description {
+          color: #ecf0f1;
+          }
+        }
+      }
+    }
+  }
+
   .MuiFormControl-root {
     border-color: yellowgreen;
     label {
@@ -107,35 +129,6 @@ input {
     }
   }
 }
-.white {
-  .contentMain {
-    margin-top: 100vh;
-  }
-}
 .ant-modal-footer {
   display: none;
-}
-.jumbotron {
-  background-image: url('/back.png');
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  position: absolute;
-  z-index: -1;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  padding-top: 40vh;
-  padding-left: 10%;
-}
-.logo {
-  height: 47px;
-  overflow: hidden;
-  position: absolute;
-  background-color: white;
-  img {
-    max-height: 47px;
-  }
 }

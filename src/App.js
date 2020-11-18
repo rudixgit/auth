@@ -7,9 +7,12 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { Menu, Switch as Switch1, Button } from 'antd';
+import { Menu, Switch as Switch1 } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Amplify, Auth } from 'aws-amplify';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+
 import Layout from './components/layout';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
@@ -20,6 +23,9 @@ import { loggedInUserData, navigation } from './utils/state';
 import { heartbeat } from './utils/api';
 import useLocalStorage from './utils/hooks';
 
+const httpLink = new HttpLink({
+  uri: 'https://devopshasura.herokuapp.com/v1/graphql',
+});
 Amplify.configure({
   aws_project_region: 'eu-west-1',
   aws_cognito_identity_pool_id:
@@ -35,8 +41,10 @@ const App = () => {
   const nav = useRecoilValue(navigation);
 
   const [dark, setDark] = useLocalStorage('theme', false);
-  const [lang, setLang] = useLocalStorage('lang', false);
-  const l = lang ? 'en' : 'bg';
+  const client = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache(),
+  });
   const logout = async () => {
     await Auth.signOut();
     localStorage.setItem('user', JSON.stringify({}));
@@ -79,101 +87,73 @@ const App = () => {
     return () => clearInterval(interval);
   }, [user, setUser]);
 
-  const MenuItems = {
-    bg: {
-      Home: 'Начало',
-      Login: 'Вход',
-      SignUp: 'Регистрация',
-      Forgot: 'Забравена Парола',
-      Admin: 'Админ',
-      Logout: 'Изход',
-    },
-    en: {
-      Home: 'Home',
-      Login: 'Login',
-      SignUp: 'Sign Up',
-      Forgot: 'Forgot Password',
-      Admin: 'Admin',
-      Logout: 'Logout',
-    },
-  };
-
   return (
-    <Router>
-      <div className={dark ? 'dark' : 'white'}>
-        <div className="logo">
-          <img src="/logo.png" alt="/logo.png" />
+    <ApolloProvider client={client}>
+      <Router>
+        <div className={dark ? 'dark' : 'white'}>
+          <div className="logo">
+            <img src="/logo.png" />
+          </div>
+          <Menu selectedKeys={[nav]} mode="horizontal">
+            <Menu.Item key="home">
+              <Link to="/">Начало</Link>
+            </Menu.Item>
+            {!user.username ? (
+              <>
+                <Menu.Item key="login">
+                  <Link to="/app/login">Вход</Link>
+                </Menu.Item>
+                <Menu.Item key="signup">
+                  <Link to="/app/signup">Регистрация</Link>
+                </Menu.Item>
+                <Menu.Item key="forgot">
+                  <Link to="/app/forgot">Забр. Парола</Link>
+                </Menu.Item>
+              </>
+            ) : (
+              <>
+                <Menu.Item key="logout">
+                  <Link to="/" onClick={() => logout()}>
+                    Изход
+                  </Link>
+                </Menu.Item>
+              </>
+            )}
+          </Menu>
+          <div className="switcher">
+            <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
+          </div>
+          <Layout>
+            <Switch>
+              <Route path="/app/login">
+                {!user.username ? (
+                  <>
+                    <h1>Вход</h1>
+                    <Login type="full" />
+                  </>
+                ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
+              <Route path="/app/forgot">
+                <Forgot />
+              </Route>
+              <Route path="/app/signup">
+                <SignUp />
+              </Route>
+
+              <Route path="/">
+                {user.username ? (
+                  <Admin user={user} />
+                ) : (
+                  <Welcome menu="home" />
+                )}
+              </Route>
+            </Switch>
+          </Layout>
         </div>
-        <Menu selectedKeys={[nav]} mode="horizontal">
-          <Menu.Item key="home">
-            <Link to="/">{MenuItems[l].Home}</Link>
-          </Menu.Item>
-          {!user.username ? (
-            <>
-              <Menu.Item key="login">
-                <Link to="/app/login">{MenuItems[l].Login}</Link>
-              </Menu.Item>
-              <Menu.Item key="signup">
-                <Link to="/app/signup">{MenuItems[l].SignUp}</Link>
-              </Menu.Item>
-              <Menu.Item key="forgot">
-                <Link to="/app/forgot">{MenuItems[l].Forgot}</Link>
-              </Menu.Item>
-            </>
-          ) : (
-            <>
-              <Menu.Item key="admin">
-                <Link to="/app/admin">{MenuItems[l].Admin}</Link>
-              </Menu.Item>
-              <Menu.Item key="logout">
-                <Link to="/" onClick={() => logout()}>
-                  {MenuItems[l].Logout}
-                </Link>
-              </Menu.Item>
-            </>
-          )}
-        </Menu>
-        <div className="switcher">
-          <Switch1
-            defaultChecked={dark}
-            onChange={() => setDark(!dark)}
-            style={{ marginRight: 5 }}
-          />
-          <Button type="primary" shape="circle" onClick={() => setLang(!lang)}>
-            {lang ? 'BG' : 'EN'}
-          </Button>
-        </div>
-        <Layout>
-          <Switch>
-            <Route path="/app/login">
-              {!user.username ? (
-                <>
-                  <h1>{MenuItems[l].Login}</h1>
-                  <Login type="full" />
-                </>
-              ) : (
-                <Redirect to="/" />
-              )}
-            </Route>
-            <Route path="/app/forgot">
-              <Forgot />
-            </Route>
-            <Route path="/app/signup">
-              <SignUp />
-            </Route>
-            <Route path="/app/feed">
-              <Welcome menu="feed" />
-            </Route>
-            <Route path="/app/admin">
-              {user.username && <Admin menu="admin" user={user} />}
-            </Route>
-            <Route path="/">
-              <Welcome menu="home" lang={l} />
-            </Route>
-          </Switch>
-        </Layout>
-      </div>
-    </Router>
+      </Router>
+    </ApolloProvider>
   );
 };
 

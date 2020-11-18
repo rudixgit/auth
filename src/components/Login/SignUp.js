@@ -84,18 +84,18 @@ const SignUp = () => {
     <div>
       {state.stage === 0 && (
         <div style={styles.formContainer}>
-          <h1>Sign Up</h1>
+          <h1>Регистрация</h1>
           {state.error && <Error errorMessage={state.error} />}
           <Input
             onChange={handleUpdate}
-            placeholder="Username"
+            placeholder="потребител"
             name="username"
             value={state.username}
             style={styles.Input}
           />
           <Input
             onChange={handleUpdate}
-            placeholder="Password"
+            placeholder="парола"
             name="password"
             value={state.password}
             type="password"
@@ -110,13 +110,13 @@ const SignUp = () => {
           />
 
           <div style={styles.button} onClick={signUp}>
-            <span style={styles.buttonText}>Sign Up</span>
+            <span style={styles.buttonText}>Регистрация</span>
           </div>
         </div>
       )}
       {state.stage === 1 && (
         <div style={styles.formContainer}>
-          <h1>Registration</h1>
+          <h1>Регистрация</h1>
           {state.error && <Error errorMessage={state.error} />}
           <Input
             onChange={handleUpdate}
@@ -126,15 +126,15 @@ const SignUp = () => {
             style={styles.Input}
           />
           <div style={styles.button} onClick={confirmSignUp}>
-            <span style={styles.buttonText}>Confirm Sign Up</span>
+            <span style={styles.buttonText}>Потвърди Регистрация</span>
           </div>
         </div>
       )}
 
       {state.stage === 2 && (
         <>
-          Registratino successful ,
-          <a href="/app/login">Login</a>
+          Регистрация успешна ,
+          <a href="/app/login">Вход</a>
         </>
       )}
     </div>

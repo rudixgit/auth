@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
 
 import { useRecoilState } from 'recoil';
-import { put } from '../../utils/api';
+import { post } from '../../utils/api';
 import { items, modal } from '../../utils/state';
 
 const Form = ({ user, edit }) => {
@@ -29,6 +29,7 @@ const Form = ({ user, edit }) => {
         ...rev,
       },
     };
+
     if (!open) {
       setFields(
         fields.rows
@@ -40,8 +41,16 @@ const Form = ({ user, edit }) => {
 
       setFields({ rows: newProjects });
     }
-    await put(newData.value, user.token);
-    // await put({ ...newData, tip: 'test1-all' }, user.token);
+    // await put(newData.value, user.token);
+
+    post(
+      'Post',
+      {
+        caption: newData.value.task,
+        created_at: new Date().getTime().toString(),
+      },
+      user.token,
+    );
     setValue('task', '');
 
     setOpen(false);
@@ -54,9 +63,10 @@ const Form = ({ user, edit }) => {
           <TextField
             id="outlined-basic"
             error={!!errors.task}
-            label={errors.task ? 'task is required' : 'task'}
+            label={errors.task ? 'полето е задължително' : `Какво мислите, ${user.username}?`}
             variant="outlined"
             style={{ width: '100%' }}
+            maxLength="2"
           />
         )}
         defaultValue=""
@@ -65,7 +75,7 @@ const Form = ({ user, edit }) => {
         rules={{ required: true }}
       />
       <Button type="primary" htmlType="submit">
-        Submit
+        Публикация
       </Button>
       {' '}
       {edit && <Button onClick={() => setOpen(false)}>Cancel</Button>}

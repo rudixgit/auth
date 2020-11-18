@@ -67,14 +67,14 @@ const Login = ({ type }) => {
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="username"
+            placeholder="потребител"
             name="username"
             value={username}
             style={styles.InputCompact}
           />
           <Input
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="password"
+            placeholder="парола"
             name="password"
             value={password}
             type="password"
@@ -89,21 +89,21 @@ const Login = ({ type }) => {
         <>
           <Input
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="Username"
+            placeholder="потребител"
             name="username"
             value={username}
             style={styles.Input}
           />
           <Input
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
+            placeholder="парола"
             name="password"
             value={password}
             type="password"
             style={styles.Input}
           />
           <div style={styles.button} onClick={login}>
-            <span style={styles.buttonText}>Login</span>
+            <span style={styles.buttonText}>Вход</span>
           </div>
         </>
       )}

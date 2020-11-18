@@ -2,6 +2,9 @@ require('dotenv').config();
 const serverless = require('serverless-http');
 const express = require('express');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+
+
 const CognitoExpress = require('cognito-express');
 
 const app = express();
@@ -70,10 +73,38 @@ const modded = (json, user) => {
 app.get('/heartbeat', authenticatedRoute, function (req, res) {
   res.json({})
 });
-app.post('/db', authenticatedRoute, async (req, res, next) => {
-  const modd = modded(req.body, res.locals.user);
-  const result = await query(modd);
-  res.json(result);
+app.post('/db/:id', authenticatedRoute, async (req, res, next) => {
+  
+  
+fetch('https://devopshasura.herokuapp.com/v1/query', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-hasura-admin-secret': 'maximus',
+  },
+  body: JSON.stringify({
+    type: 'insert',
+    args: {
+      table: { name: req.params.id, schema: 'public' },
+      objects: [
+        {
+          ...req.body,
+          user_id: res.locals.user.username,
+          id:new Date().getTime()
+        },
+      ],
+      returning: [],
+    },
+  }),
+})
+  .then(result => {
+    return result.json();
+  })
+  .then(data => {
+    res.json(data);
+    //res.send(data);
+  });
+ 
 });
 app.post('/del', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
