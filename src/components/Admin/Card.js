@@ -10,7 +10,7 @@ const { Meta } = Card;
 const Tweet = ({ item }) => (
   <Card style={{ marginBottom: 5 }}>
     <Meta
-      avatar={<Avatar src="https://eu.ui-avatars.com/api/?name=a" />}
+      avatar={<Avatar src="//eu.ui-avatars.com/api/?name=a" />}
       title={(
         <>
           {`@${item.user_id} `}

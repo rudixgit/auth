@@ -91,76 +91,74 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <div className={dark ? 'dark' : 'white'}>
-          <div className="logo">
-            <img src="/logo.png" alt="" />
+      {user && (
+        <Router>
+          <div className={dark ? 'dark' : 'white'}>
+            <div className="logo">
+              <img src="/logo.png" alt="" />
+            </div>
+            <Menu selectedKeys={[nav]} mode="horizontal">
+              <Menu.Item key="home">
+                <Link to="/">Начало</Link>
+              </Menu.Item>
+              {!user.username ? (
+                <>
+                  <Menu.Item key="login">
+                    <Link to="/app/login">Вход</Link>
+                  </Menu.Item>
+                  <Menu.Item key="signup">
+                    <Link to="/app/signup">Регистрация</Link>
+                  </Menu.Item>
+                  <Menu.Item key="forgot">
+                    <Link to="/app/forgot">Забр. Парола</Link>
+                  </Menu.Item>
+                </>
+              ) : (
+                <>
+                  <Menu.Item key="logout">
+                    <Link to="/" onClick={() => logout()}>
+                      Изход
+                    </Link>
+                  </Menu.Item>
+                </>
+              )}
+            </Menu>
+            <div className="switcher">
+              <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
+            </div>
+            <Layout>
+              <Switch>
+                <Route path="/app/login">
+                  {!user.username ? (
+                    <>
+                      <h1>Вход</h1>
+                      <Login type="full" />
+                    </>
+                  ) : (
+                    <Redirect to="/" />
+                  )}
+                </Route>
+                <Route path="/app/forgot">
+                  <Forgot />
+                </Route>
+                <Route path="/app/signup">
+                  <SignUp />
+                </Route>
+                <Route path="/:id">
+                  {user.username ? <Profile user={user} /> : <Profile />}
+                </Route>
+                <Route path="/">
+                  {user.username ? (
+                    <Admin user={user} />
+                  ) : (
+                    <Welcome menu="home" />
+                  )}
+                </Route>
+              </Switch>
+            </Layout>
           </div>
-          <Menu selectedKeys={[nav]} mode="horizontal">
-            <Menu.Item key="home">
-              <Link to="/">Начало</Link>
-            </Menu.Item>
-            {!user.username ? (
-              <>
-                <Menu.Item key="login">
-                  <Link to="/app/login">Вход</Link>
-                </Menu.Item>
-                <Menu.Item key="signup">
-                  <Link to="/app/signup">Регистрация</Link>
-                </Menu.Item>
-                <Menu.Item key="forgot">
-                  <Link to="/app/forgot">Забр. Парола</Link>
-                </Menu.Item>
-              </>
-            ) : (
-              <>
-                <Menu.Item key="logout">
-                  <Link to="/" onClick={() => logout()}>
-                    Изход
-                  </Link>
-                </Menu.Item>
-              </>
-            )}
-          </Menu>
-          <div className="switcher">
-            <Switch1 defaultChecked={dark} onChange={() => setDark(!dark)} />
-          </div>
-          <Layout>
-            <Switch>
-              <Route path="/app/login">
-                {!user.username ? (
-                  <>
-                    <h1>Вход</h1>
-                    <Login type="full" />
-                  </>
-                ) : (
-                  <Redirect to="/" />
-                )}
-              </Route>
-              <Route path="/app/forgot">
-                <Forgot />
-              </Route>
-              <Route path="/app/signup">
-                <SignUp />
-              </Route>
-              <Route path="/:id">
-                {user.username ? (
-                  <Profile user={user} />
-                ) : (
-                  <Profile />
-                )}
-              </Route>
-              <Route path="/">
-                {user.username ? (
-                  <Admin user={user} />
-                ) : (
-                  <Welcome menu="home" />
-                )}
-              </Route>
-            </Switch>
-          </Layout>
-        </div>
-      </Router>
+        </Router>
+      )}
     </ApolloProvider>
   );
 };

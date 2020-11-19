@@ -4,10 +4,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-
+import Card from './Card';
 import { post } from '../../utils/api';
 
-const Admin = ({ user, edit }) => {
+const Admin = ({ user }) => {
+  console.log(user);
   const {
     control, errors, handleSubmit, setValue,
   } = useForm();
@@ -22,20 +23,19 @@ const Admin = ({ user, edit }) => {
       user.token,
     );
   };
-  const { data, loading, error } = useQuery(gql`
+  const { data, loading } = useQuery(gql`
     {
      Post(where: {wall: {follower_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
     id
+    user_id
     created_at
+    caption
   }
-  Follow(where: {following_id: {_eq: "${user.username}"}}, order_by: {id: desc}) {
-    follower_id
-  }
- 
+  
     }
   `);
-  if (loading) return 'Loading...';
-  if (error) return `Error! ${error.message}`;
+
+  if (loading) return 'Зареждам...';
 
   return (
     <>
@@ -67,7 +67,19 @@ const Admin = ({ user, edit }) => {
           Чурулик!
         </Button>
       </form>
-      {JSON.stringify(data)}
+
+      {data.Post[1] ? (
+        <>
+          <h1>Следвани</h1>
+          {}
+        </>
+      ) : (
+        <>
+          <h1>Публични Постове</h1>
+
+        </>
+      )}
+      { data.Post.map((item) => (<Card item={item} />)) }
     </>
   );
 };
