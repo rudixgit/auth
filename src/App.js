@@ -25,7 +25,7 @@ import { heartbeat } from './utils/api';
 import useLocalStorage from './utils/hooks';
 
 const httpLink = new HttpLink({
-  uri: 'https://devopshasura.herokuapp.com/v1/graphql',
+  uri: 'https://rudixdb.herokuapp.com/v1/graphql',
 });
 Amplify.configure({
   aws_project_region: 'eu-west-1',

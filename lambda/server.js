@@ -76,7 +76,7 @@ app.get('/heartbeat', authenticatedRoute, function (req, res) {
 app.post('/db/:id', authenticatedRoute, async (req, res, next) => {
   
   
-fetch('https://devopshasura.herokuapp.com/v1/query', {
+fetch('https://rudixdb.herokuapp.com/v1/query', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -90,7 +90,6 @@ fetch('https://devopshasura.herokuapp.com/v1/query', {
         {
           ...req.body,
           user_id: res.locals.user.username,
-          id:new Date().getTime()
         },
       ],
       returning: [],

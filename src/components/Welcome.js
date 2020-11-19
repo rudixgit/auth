@@ -17,11 +17,10 @@ const Welcome = ({ user }) => {
 
   const { data, loading, error } = useQuery(gql`
     {
-      Post(where: {}, order_by: { id: desc }, limit: 10) {
-        id
-        created_at
-        caption
+      Tweet(where: {}, order_by: { id: desc }, limit: 10) {
         user_id
+        tweet
+        created_at
       }
     }
   `);
@@ -30,7 +29,9 @@ const Welcome = ({ user }) => {
 
   return (
     <>
-      {data.Post.map((item) => (<Card item={item} />))}
+      {data.Tweet.map((item) => (
+        <Card item={item} />
+      ))}
     </>
   );
 };

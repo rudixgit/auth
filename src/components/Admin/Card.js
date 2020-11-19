@@ -15,11 +15,11 @@ const Tweet = ({ item }) => (
         <>
           {`@${item.user_id} `}
           <small>
-            <TimeAgo date="Feb 1, 1966" formatter={formatter} />
+            <TimeAgo date={item.created_at} formatter={formatter} />
           </small>
         </>
       )}
-      description={item.caption}
+      description={item.tweet}
     />
   </Card>
 );

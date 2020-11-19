@@ -12,31 +12,31 @@ const Admin = ({ user }) => {
   const {
     control, errors, handleSubmit, setValue,
   } = useForm();
-  const onSubmit = async ({ caption }) => {
-    setValue('caption', '');
+  const onSubmit = async ({ tweet }) => {
+    setValue('tweet', '');
     post(
-      'Post',
+      'Tweet',
       {
-        caption,
-        created_at: new Date().getTime().toString(),
+        tweet,
+
       },
       user.token,
     );
   };
-  const { data, loading } = useQuery(gql`
+  const { data, loading, error } = useQuery(gql`
     {
-     Post(where: {wall: {follower_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
+     Tweet(where: {wall: {follower_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
     id
     user_id
     created_at
-    caption
+    tweet
   }
   
     }
   `);
 
   if (loading) return 'Зареждам...';
-
+  if (error) return `Зареждам...${error}`;
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -44,9 +44,9 @@ const Admin = ({ user }) => {
           as={(
             <TextField
               id="outlined-basic"
-              error={!!errors.caption}
+              error={!!errors.tweet}
               label={
-                errors.caption
+                errors.tweet
                   ? `какво мислите ${user.username}?`
                   : `какво мислите ${user.username}?`
               }
@@ -55,7 +55,7 @@ const Admin = ({ user }) => {
             />
           )}
           defaultValue=""
-          name="caption"
+          name="tweet"
           control={control}
           rules={{ required: true }}
         />
@@ -68,18 +68,7 @@ const Admin = ({ user }) => {
         </Button>
       </form>
 
-      {data.Post[1] ? (
-        <>
-          <h1>Следвани</h1>
-          {}
-        </>
-      ) : (
-        <>
-          <h1>Публични Постове</h1>
-
-        </>
-      )}
-      { data.Post.map((item) => (<Card item={item} />)) }
+      { data.Tweet.map((item) => (<Card item={item} />)) }
     </>
   );
 };
