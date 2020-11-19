@@ -1,14 +1,14 @@
-import React, { } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import Card from './Card';
+import PublicFeed from './PublicFeed';
 import { post } from '../../utils/api';
 
 const Admin = ({ user }) => {
-  console.log(user);
   const {
     control, errors, handleSubmit, setValue,
   } = useForm();
@@ -18,7 +18,6 @@ const Admin = ({ user }) => {
       'Tweet',
       {
         tweet,
-
       },
       user.token,
     );
@@ -31,7 +30,9 @@ const Admin = ({ user }) => {
     created_at
     tweet
   }
-  
+   Follow(where: {follower_id: {_eq: "${user.username}"}}) {
+    following_id
+  }
     }
   `);
 
@@ -67,8 +68,16 @@ const Admin = ({ user }) => {
           Чурулик!
         </Button>
       </form>
+      {JSON.stringify()}
 
-      { data.Tweet.map((item) => (<Card item={item} />)) }
+      {data.Follow.length >= 1 ? (
+        data.Tweet.map((item) => <Card item={item} user={user} />)
+      ) : (
+        <>
+          <h1>Публични</h1>
+          <PublicFeed user={user} />
+        </>
+      )}
     </>
   );
 };

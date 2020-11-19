@@ -73,7 +73,8 @@ input {
   border: none;
 }
 
-.dark .ant-card .ant-card-body .ant-card-meta .ant-card-meta-detail .ant-card-meta-title, .dark .ant-card .ant-card-body .ant-card-meta .ant-card-meta-detail .ant-card-meta-description {
+.dark .ant-card .ant-card-body .ant-card-meta .ant-card-meta-detail .ant-card-meta-title,
+.dark .ant-card .ant-card-body .ant-card-meta .ant-card-meta-detail .ant-card-meta-description {
   color: #ecf0f1;
 }
 

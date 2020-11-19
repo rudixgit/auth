@@ -24,12 +24,12 @@ input {
 }
 .logo {
   max-height: 47px;
- overflow: hidden;
- 
+  overflow: hidden;
+
   background-color: #fff;
- img {
-     max-height: 47px;
- }
+  img {
+    max-height: 47px;
+  }
 }
 
 .ant-menu {
@@ -45,7 +45,7 @@ input {
     }
   }
 }
- 
+
 .dark {
   min-height: 100vh;
 
@@ -65,8 +65,9 @@ input {
     .ant-card-body {
       .ant-card-meta {
         .ant-card-meta-detail {
-          .ant-card-meta-title,.ant-card-meta-description {
-          color: #ecf0f1;
+          .ant-card-meta-title,
+          .ant-card-meta-description {
+            color: #ecf0f1;
           }
         }
       }

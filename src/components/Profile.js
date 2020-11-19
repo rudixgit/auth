@@ -20,8 +20,8 @@ const Profile = ({ user }) => {
 
   const { data, loading, error } = useQuery(gql`
     {
-      Post(where: { user_id: { _eq: "${id}" } }, order_by: { id: desc },limit:100) {
-        caption
+      Tweet(where: { user_id: { _eq: "${id}" } }, order_by: { id: desc },limit:100) {
+        tweet
         created_at
         id
         user_id
@@ -34,9 +34,11 @@ const Profile = ({ user }) => {
   return (
     <>
       <h1>{id}</h1>
-      {data.Post[0] ? data.Post.map((item) => (
-        <Card key={item.id} item={item} user={user} />
-      )) : (<>Потребителя не съществува</>)}
+      {data.Tweet[0] ? (
+        data.Tweet.map((item) => <Card key={item.id} item={item} user={user} />)
+      ) : (
+        <>Потребителя не съществува</>
+      )}
     </>
   );
 };

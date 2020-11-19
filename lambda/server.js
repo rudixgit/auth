@@ -30,7 +30,7 @@ const cognitoExpress = new CognitoExpress({
 function containsAny(str, substrings) {
   for (var i = 0; i != substrings.length; i++) {
     var substring = substrings[i];
-    if (str.indexOf(substring) != -1) {
+    if (str.indexOf(substring) !== -1) {
       return true;
     }
   }

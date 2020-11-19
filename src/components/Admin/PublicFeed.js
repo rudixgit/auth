@@ -1,20 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { useRecoilState } from 'recoil';
+import Card from './Card';
 
-import { navigation } from '../utils/state';
-import Card from './Admin/Card';
-
-const Welcome = () => {
-  // const [fields, setFields] = useState({ Items: [] });
-
-  const [nav, setNav] = useRecoilState(navigation);
-
-  useEffect(() => {
-    setNav('home');
-  }, [setNav, nav]);
-
+const PublicFeed = () => {
   const { data, loading, error } = useQuery(gql`
     {
       Tweet(where: {}, order_by: { id: desc }, limit: 10) {
@@ -35,5 +24,4 @@ const Welcome = () => {
     </>
   );
 };
-
-export default Welcome;
+export default PublicFeed;
