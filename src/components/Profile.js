@@ -6,7 +6,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { navigation } from '../utils/state';
-import Card from './Admin/Card';
+import Card from './Admin/components/Card';
 
 const Profile = ({ user }) => {
   // const [fields, setFields] = useState({ Items: [] });

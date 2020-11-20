@@ -45,6 +45,21 @@ input {
     }
   }
 }
+.ant-card {
+   
+    .ant-card-body {
+      .ant-card-meta {
+        .ant-card-meta-detail {
+        
+          .ant-card-meta-description {
+             font-weight: 100;
+             font-size: 140%;
+             color: black;
+          }
+        }
+      }
+    }
+  }
 
 .dark {
   min-height: 100vh;

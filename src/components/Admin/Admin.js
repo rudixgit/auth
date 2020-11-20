@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import Card from './Card';
+import Card from './components/Card';
 import PublicFeed from './PublicFeed';
 import { post } from '../../utils/api';
 
@@ -29,6 +29,11 @@ const Admin = ({ user }) => {
     user_id
     created_at
     tweet
+    comment {
+          id
+          comment
+          user_id
+        }
   }
    Follow(where: {follower_id: {_eq: "${user.username}"}}) {
     following_id
@@ -75,7 +80,7 @@ const Admin = ({ user }) => {
       ) : (
         <>
           <h1>Публични</h1>
-          <PublicFeed user={user} />
+          <PublicFeed user={user} showfollow />
         </>
       )}
     </>
