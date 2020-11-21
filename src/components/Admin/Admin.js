@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
@@ -43,6 +43,7 @@ const Admin = ({ user }) => {
 
   if (loading) return 'Зареждам...';
   if (error) return `Зареждам...${error}`;
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,15 +75,18 @@ const Admin = ({ user }) => {
         </Button>
       </form>
       {JSON.stringify()}
+      {data.Tweet[0] && <h1>Следвани</h1>}
+      {data.Tweet.map((item) => (
+        <Card item={item} user={user} />
+      ))}
 
-      {data.Follow.length >= 1 ? (
-        data.Tweet.map((item) => <Card item={item} user={user} />)
-      ) : (
-        <>
-          <h1>Публични</h1>
-          <PublicFeed user={user} showfollow />
-        </>
-      )}
+      <>
+        <h1>Публични</h1>
+        <PublicFeed
+          user={user}
+          following={data.Follow.map((item) => item.following_id)}
+        />
+      </>
     </>
   );
 };

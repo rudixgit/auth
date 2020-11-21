@@ -3,7 +3,8 @@ import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import Card from './components/Card';
 
-const PublicFeed = ({ user }) => {
+const PublicFeed = ({ user, following }) => {
+  console.log(following);
   const { data, loading, error } = useQuery(gql`
     {
       Tweet(where: {}, order_by: { id: desc }, limit: 100) {
@@ -25,7 +26,7 @@ const PublicFeed = ({ user }) => {
   return (
     <>
       {data.Tweet.map((item) => (
-        <Card key={item.id} item={item} user={user} showfollow />
+        <Card key={item.id} item={item} user={user} showfollow={![...following, user.username].includes(item.user_id)} />
       ))}
     </>
   );

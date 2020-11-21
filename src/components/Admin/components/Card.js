@@ -4,7 +4,7 @@ import TimeAgo from 'react-timeago';
 import frenchStrings from 'react-timeago/lib/language-strings/bg';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { post } from '../../../utils/api';
-// import Follow from './Follow';
+import Follow from './Follow';
 
 const formatter = buildFormatter(frenchStrings);
 
@@ -12,6 +12,7 @@ const { Meta } = Card;
 const { Search } = Input;
 
 const Tweet = ({ item, user, showfollow }) => {
+  console.log(showfollow);
   const [comment, setComment] = useState(item.comment || []);
   const onSearch = (value) => {
     const val = { comment: value };
@@ -35,6 +36,7 @@ const Tweet = ({ item, user, showfollow }) => {
               <small>
                 <TimeAgo date={item.created_at} formatter={formatter} />
               </small>
+              {showfollow && <Follow user={user} username={item.user_id} />}
             </>
           )}
           description={item.tweet}
