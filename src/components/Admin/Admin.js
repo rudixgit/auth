@@ -24,7 +24,7 @@ const Admin = ({ user }) => {
   };
   const { data, loading, error } = useQuery(gql`
     {
-     Tweet(where: {wall: {follower_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
+     Tweet(where: {wall: {user_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
     id
     user_id
     created_at
@@ -35,7 +35,7 @@ const Admin = ({ user }) => {
           user_id
         }
   }
-   Follow(where: {follower_id: {_eq: "${user.username}"}}) {
+   Follow(where: {user_id: {_eq: "${user.username}"}}) {
     following_id
   }
     }
@@ -77,7 +77,7 @@ const Admin = ({ user }) => {
       {JSON.stringify()}
       {data.Tweet[0] && <h1>Следвани</h1>}
       {data.Tweet.map((item) => (
-        <Card item={item} user={user} />
+        <Card key={item.id} item={item} user={user} />
       ))}
 
       <>
