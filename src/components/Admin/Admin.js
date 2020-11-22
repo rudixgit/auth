@@ -37,7 +37,7 @@ const Admin = ({ user }) => {
           user_id
         }
   }
-    myWall:Tweet(order_by: {created_at: desc}, where: {user_id: {_eq: "arpecop"}}, limit: 100) {
+    myWall:Tweet(order_by: {created_at: desc}, where: {user_id: {_eq: "${user.username}"}}, limit: 100) {
     id
     user_id
     created_at
