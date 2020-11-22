@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/react-hooks';
 import Card from './components/Card';
 
 const PublicFeed = ({ user, following }) => {
-  console.log(following);
   const { data, loading, error } = useQuery(gql`
     {
       Tweet(where: {}, order_by: { id: desc }, limit: 100) {

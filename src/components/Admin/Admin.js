@@ -42,6 +42,11 @@ const Admin = ({ user }) => {
     user_id
     created_at
     tweet
+    comment {
+          id
+          comment
+          user_id
+        }
   }
    Follow(where: {user_id: {_eq: "${user.username}"}}) {
     following_id
