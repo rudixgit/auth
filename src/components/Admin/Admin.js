@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import { Button } from 'antd';
@@ -9,6 +9,7 @@ import PublicFeed from './PublicFeed';
 import { post } from '../../utils/api';
 
 const Admin = ({ user }) => {
+  const [myitems, setMyitems] = useState([]);
   const {
     control, errors, handleSubmit, setValue,
   } = useForm();
@@ -21,10 +22,11 @@ const Admin = ({ user }) => {
       },
       user.token,
     );
+    setMyitems([...myitems, { tweet, id: new Date().getTime().toString(), user_id: user.username }]);
   };
   const { data, loading, error } = useQuery(gql`
     {
-     Tweet(where: {wall: {user_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}) {
+     Tweet(where: {wall: {user_id: {_eq: "${user.username}"}}}, order_by: {created_at: desc}, limit: 100) {
     id
     user_id
     created_at
@@ -34,6 +36,12 @@ const Admin = ({ user }) => {
           comment
           user_id
         }
+  }
+    myWall:Tweet(order_by: {created_at: desc}, where: {user_id: {_eq: "arpecop"}}, limit: 100) {
+    id
+    user_id
+    created_at
+    tweet
   }
    Follow(where: {user_id: {_eq: "${user.username}"}}) {
     following_id
@@ -75,10 +83,16 @@ const Admin = ({ user }) => {
         </Button>
       </form>
       {JSON.stringify()}
-      {data.Tweet[0] && <h1>Следвани</h1>}
-      {data.Tweet.map((item) => (
+      {data.Tweet[0] && <h1>Стена</h1>}
+      {myitems.map((item) => (
         <Card key={item.id} item={item} user={user} />
       ))}
+      {[...data.Tweet, ...data.myWall]
+        .sort((a, b) => a.id - b.id)
+        .reverse()
+        .map((item) => (
+          <Card key={item.id} item={item} user={user} />
+        ))}
 
       <>
         <h1>Публични</h1>

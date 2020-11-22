@@ -12,7 +12,6 @@ const { Meta } = Card;
 const { Search } = Input;
 
 const Tweet = ({ item, user, showfollow }) => {
-  console.log(showfollow);
   const [comment, setComment] = useState(item.comment || []);
   const onSearch = (value) => {
     const val = { comment: value };
@@ -51,8 +50,8 @@ const Tweet = ({ item, user, showfollow }) => {
           ))}
         {user && (
           <Search
-            placeholder="input search text"
-            enterButton="Коментирай"
+            placeholder="Коментар"
+            enterButton="Чурулик"
             size="medium"
             onSearch={onSearch}
           />
