@@ -5,10 +5,10 @@ import { Button } from 'antd';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import Card from './components/Card';
-import PublicFeed from './PublicFeed';
+
 import { post } from '../../utils/api';
 
-const Admin = ({ user }) => {
+const Profile = ({ user }) => {
   const [myitems, setMyitems] = useState([]);
   const {
     control, errors, handleSubmit, setValue,
@@ -22,7 +22,10 @@ const Admin = ({ user }) => {
       },
       user.token,
     );
-    setMyitems([...myitems, { tweet, id: new Date().getTime().toString(), user_id: user.username }]);
+    setMyitems([
+      ...myitems,
+      { tweet, id: new Date().getTime().toString(), user_id: user.username },
+    ]);
   };
   const { data, loading, error } = useQuery(gql`
     {
@@ -99,15 +102,8 @@ const Admin = ({ user }) => {
           <Card key={item.id} item={item} user={user} />
         ))}
 
-      <>
-        <h1>Публични</h1>
-        <PublicFeed
-          user={user}
-          following={data.Follow.map((item) => item.following_id)}
-        />
-      </>
     </>
   );
 };
 
-export default Admin;
+export default Profile;

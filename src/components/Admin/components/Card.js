@@ -31,7 +31,10 @@ const Tweet = ({ item, user, showfollow }) => {
         <Meta
           title={(
             <>
-              {`@${item.user_id} `}
+              <a href={`/${item.user_id}`}>
+                {`@${item.user_id}`}
+                {' '}
+              </a>
               <small>
                 <TimeAgo date={item.created_at} formatter={formatter} />
               </small>

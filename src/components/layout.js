@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Helmet from "react-helmet";
-import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
-import "../css/main.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import '../css/main.css';
 
-const Layout = ({ children, data }) => (
+const Layout = ({ children }) => (
   <>
     <Helmet
-      title={"title"}
+      title="churulik"
       meta={[
-        { name: "description", content: "Sample" },
-        { name: "keywords", content: "sample, something" },
+        { name: 'description', content: 'Sample' },
+        { name: 'keywords', content: 'sample, something' },
       ]}
     >
       <html lang="en" />
@@ -18,9 +18,9 @@ const Layout = ({ children, data }) => (
 
     <div
       style={{
-        margin: "0 auto",
+        margin: '0 auto',
         maxWidth: 960,
-        padding: "0px 1.0875rem 1.45rem",
+        padding: '0px 1.0875rem 1.45rem',
         paddingTop: 0,
       }}
     >

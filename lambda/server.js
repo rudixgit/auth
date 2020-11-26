@@ -80,7 +80,7 @@ fetch('https://rudixdb.herokuapp.com/v1/query', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'x-hasura-admin-secret': 'maximus',
+    'x-hasura-admin-secret': process.env.password,
   },
   body: JSON.stringify({
     type: 'insert',

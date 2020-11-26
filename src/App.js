@@ -119,6 +119,9 @@ const App = () => {
                     Изход
                   </Link>
                 </Menu.Item>
+                <Menu.Item key="profile">
+                  <Link to="/app/profile">Профил</Link>
+                </Menu.Item>
               </>
             )}
           </Menu>
@@ -143,12 +146,15 @@ const App = () => {
               <Route path="/app/signup">
                 <SignUp />
               </Route>
-              <Route path="/:id">
+              <Route path="/">
                 {user.username ? (
                   <Profile user={user} />
                 ) : (
-                  <Profile />
+                  <Welcome menu="home" />
                 )}
+              </Route>
+              <Route path="/:id">
+                {user.username ? <Profile user={user} /> : <Profile />}
               </Route>
               <Route path="/">
                 {user.username ? (
