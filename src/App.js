@@ -146,13 +146,6 @@ const App = () => {
               <Route path="/app/signup">
                 <SignUp />
               </Route>
-              <Route path="/">
-                {user.username ? (
-                  <Profile user={user} />
-                ) : (
-                  <Welcome menu="home" />
-                )}
-              </Route>
               <Route path="/:id">
                 {user.username ? <Profile user={user} /> : <Profile />}
               </Route>
