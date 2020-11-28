@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import Helmet from 'react-helmet';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import '../css/main.css';
@@ -28,9 +28,5 @@ const Layout = ({ children }) => (
     </div>
   </>
 );
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default Layout;
