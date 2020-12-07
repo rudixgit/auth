@@ -25,7 +25,12 @@ const PublicFeed = ({ user, following }) => {
   return (
     <>
       {data.Tweet.map((item) => (
-        <Card key={item.id} item={item} user={user} showfollow={![...following, user.username].includes(item.user_id)} />
+        <Card
+          key={item.id}
+          item={item}
+          user={user}
+          showfollow={![...following, user.username].includes(item.user_id)}
+        />
       ))}
     </>
   );
