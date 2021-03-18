@@ -19,10 +19,15 @@ const Admin = ({ user }) => {
       'Tweet',
       {
         tweet,
+        created_at: new Date(),
       },
       user.token,
     );
-    setMyitems([...myitems, { tweet, id: new Date().getTime().toString(), user_id: user.username }]);
+    setMyitems([...myitems, {
+      tweet,
+      id: new Date().getTime().toString(),
+      user_id: user.username,
+    }]);
   };
   const { data, loading, error } = useQuery(gql`
     {
@@ -87,7 +92,6 @@ const Admin = ({ user }) => {
           Чурулик!
         </Button>
       </form>
-      {JSON.stringify()}
       {data.Tweet[0] && <h1>Стена</h1>}
       {myitems.map((item) => (
         <Card key={item.id} item={item} user={user} />

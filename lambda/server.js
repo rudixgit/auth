@@ -3,10 +3,7 @@ const serverless = require('serverless-http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
-
-
 const CognitoExpress = require('cognito-express');
-
 const app = express();
 
 const compression = require('compression');
@@ -76,7 +73,7 @@ app.get('/heartbeat', authenticatedRoute, function (req, res) {
 app.post('/db/:id', authenticatedRoute, async (req, res, next) => {
   
   
-fetch('https://rudixdb.herokuapp.com/v1/query', {
+fetch('https://hasuradbone.herokuapp.com/v1/query', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
