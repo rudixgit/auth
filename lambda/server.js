@@ -8,7 +8,7 @@ const app = express();
 
 const compression = require('compression');
 const cors = require('cors');
-const { query, put,del } = require('./src/db.js');
+const { query, put, del } = require('./src/db.js');
 
 app.use(compression());
 app.use(cors());
@@ -54,53 +54,48 @@ authenticatedRoute.use((req, res, next) => {
 
 // Define your routes that need authentication check
 
- 
- 
 const modded = (json, user) => {
   const a = json.collection || json.tip;
   const x = containsAny(a, ['all']) ? a : a + '' + user.username;
-  return ({
+  return {
     ...json,
-    username:user.username,
-    tip:x,
+    username: user.username,
+    tip: x,
     collection: x,
-  });
-}
+  };
+};
 
-app.get('/heartbeat', authenticatedRoute, function (req, res) {
-  res.json({})
+app.get('/heartbeat', authenticatedRoute, function(req, res) {
+  res.json({});
 });
 app.post('/db/:id', authenticatedRoute, async (req, res, next) => {
-  
-  
-fetch('https://hasuradbone.herokuapp.com/v1/query', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-hasura-admin-secret': process.env.password,
-  },
-  body: JSON.stringify({
-    type: 'insert',
-    args: {
-      table: { name: req.params.id, schema: 'public' },
-      objects: [
-        {
-          ...req.body,
-          user_id: res.locals.user.username,
-        },
-      ],
-      returning: [],
+  fetch('https://hasuradbone.herokuapp.com/v1/query', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-hasura-admin-secret': process.env.password,
     },
-  }),
-})
-  .then(result => {
-    return result.json();
+    body: JSON.stringify({
+      type: 'insert',
+      args: {
+        table: { name: req.params.id, schema: 'public' },
+        objects: [
+          {
+            ...req.body,
+            user_id: res.locals.user.username,
+          },
+        ],
+        returning: [],
+      },
+    }),
   })
-  .then(data => {
-    res.json(data);
-    //res.send(data);
-  });
- 
+    .then(result => {
+      return result.json();
+    })
+    .then(data => {
+      res.json(data);
+      //res.send(data);
+    });
 });
 app.post('/del', authenticatedRoute, async (req, res, next) => {
   const modd = modded(req.body, res.locals.user);
@@ -110,7 +105,7 @@ app.post('/del', authenticatedRoute, async (req, res, next) => {
 });
 
 app.post('/dbpublic', async (req, res, next) => {
-  const modd = modded(req.body, {username:'nonexist'});
+  const modd = modded(req.body, { username: 'nonexist' });
   const result = await query(modd);
   res.json(result);
 });
@@ -121,7 +116,7 @@ app.post('/insert', authenticatedRoute, async (req, res, next) => {
   res.json(result);
 });
 app.post('/register', async (req, res, next) => {
-  const {username,email,vreme,tip} = req.body 
+  const { username, email, vreme, tip } = req.body;
   const result = await put({ username, email, vreme, tip });
   res.json(result);
 });

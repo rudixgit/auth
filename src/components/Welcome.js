@@ -35,7 +35,9 @@ const Welcome = () => {
   return (
     <>
       {data.Tweet.map((item) => (
-        <Card key={item.id} item={item} />
+        <a href={`/${item.id}`} key={item.id}>
+          <Card item={item} />
+        </a>
       ))}
     </>
   );
