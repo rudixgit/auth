@@ -27,7 +27,7 @@ import { heartbeat } from './utils/api';
 import useLocalStorage from './utils/hooks';
 
 const httpLink = new HttpLink({
-  uri: 'http://twitter1.prismic.io/graphql',
+  uri: 'https://hasuradbone.herokuapp.com/v1/graphql',
 });
 Amplify.configure({
   aws_project_region: 'eu-west-1',
